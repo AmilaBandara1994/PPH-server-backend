@@ -78,6 +78,18 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Collection<User> users;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "nurse1")
+    private Collection<Clinic> nurse1;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "nurse2")
+    private Collection<Clinic> nurse2;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Clinic> employee;
+
     public Employee(){}
 
     public Employee(Integer id, String callingname){
@@ -272,5 +284,29 @@ public class Employee {
 
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    public Collection<Clinic> getNurse1() {
+        return nurse1;
+    }
+
+    public void setNurse1(Collection<Clinic> nurse1) {
+        this.nurse1 = nurse1;
+    }
+
+    public Collection<Clinic> getNurse2() {
+        return nurse2;
+    }
+
+    public void setNurse2(Collection<Clinic> nurse2) {
+        this.nurse2 = nurse2;
+    }
+
+    public Collection<Clinic> getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Collection<Clinic> employee) {
+        this.employee = employee;
     }
 }
