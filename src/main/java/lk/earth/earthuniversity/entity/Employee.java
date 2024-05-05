@@ -91,6 +91,9 @@ public class Employee {
     private Collection<Clinic> employee;
 
     public Employee(){}
+    public Employee(Integer id){
+        this.id = id;
+    }
 
     public Employee(Integer id, String callingname){
         this.id = id;

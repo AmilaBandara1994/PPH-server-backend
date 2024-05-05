@@ -15,6 +15,11 @@ public class Doctorclinictype {
     @JoinColumn(name = "clinictype_id", referencedColumnName = "id", nullable = false)
     private Clinictype clinictype;
 
+    public Doctorclinictype(){}
+    public Doctorclinictype(Integer id){
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

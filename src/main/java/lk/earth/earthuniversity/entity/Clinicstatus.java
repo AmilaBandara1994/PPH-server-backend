@@ -20,6 +20,12 @@ Clinicstatus {
     @OneToMany(mappedBy = "clinicstatus")
     private Collection<Clinic> clinics;
 
+    public Clinicstatus(){}
+    public Clinicstatus(Integer id){
+        this.id = id;
+    }
+
+
     public Integer getId() {
         return id;
     }

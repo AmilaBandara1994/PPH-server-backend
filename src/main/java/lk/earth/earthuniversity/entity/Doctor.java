@@ -22,6 +22,11 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private Collection<Doctorclinictype> doctorclinictypes;
 
+    public Doctor(){}
+    public Doctor(Integer id ){
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

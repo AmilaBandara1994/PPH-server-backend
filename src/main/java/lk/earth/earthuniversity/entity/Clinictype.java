@@ -22,7 +22,10 @@ public class Clinictype {
     @JsonIgnore
     @OneToMany(mappedBy = "clinictype")
     private Collection<Doctorclinictype> doctorclinictypes;
-
+    public Clinictype(){}
+    public Clinictype(Integer id){
+        this.id = id;
+    }
     public Integer getId() {
         return id;
     }

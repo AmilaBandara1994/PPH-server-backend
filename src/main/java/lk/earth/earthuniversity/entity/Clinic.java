@@ -52,6 +52,8 @@ public class Clinic {
     @JoinColumn(name = "clinicstatus_id", referencedColumnName = "id", nullable = false)
     private Clinicstatus clinicstatus;
 
+    public Clinic(){}
+
     public Integer getId() {
         return id;
     }
