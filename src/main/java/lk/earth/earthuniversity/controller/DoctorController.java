@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,9 +21,23 @@ public class DoctorController {
     private DoctorDao doctorDao;
 
 
-    @GetMapping(produces = "application/json")
-    public List<Doctor> getAll() {
-        return  this.doctorDao.findAll();
+//    @GetMapping(produces = "application/json")
+//    public List<Doctor> getAll() {
+//        return  this.doctorDao.findAll();
+//    }
+
+    @GetMapping(value = "/list", produces = "application/json")
+    public List<Doctor> getAll(@RequestParam HashMap <String,String> params) {
+        List<Doctor> doctors = new ArrayList<Doctor>();
+
+        if(params.isEmpty()) doctors = this.doctorDao.findAll();
+
+        String clinictypeId = params.get("clinictypeid");
+
+        if(clinictypeId != null) doctors = this.doctorDao.findAllDoctorsByCategoryId(Integer.parseInt(clinictypeId));
+
+        return  doctors;
+
     }
 //
 //    @GetMapping(path ="/list",produces = "application/json")

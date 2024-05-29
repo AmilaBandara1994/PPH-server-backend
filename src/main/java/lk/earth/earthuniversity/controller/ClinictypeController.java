@@ -3,11 +3,9 @@ package lk.earth.earthuniversity.controller;
 import lk.earth.earthuniversity.dao.ClinictypeDao;
 import lk.earth.earthuniversity.entity.Clinictype;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +18,8 @@ public class ClinictypeController {
     private ClinictypeDao clinictypeDao;
 
     @GetMapping(path ="/list",produces = "application/json")
-    public List<Clinictype> get() {
-
+    public List<Clinictype> get()  {
+//        @RequestParam HashMap<String, String> params
         List<Clinictype> clinictypes = this.clinictypeDao.findAll();
 
         clinictypes = clinictypes.stream().map(

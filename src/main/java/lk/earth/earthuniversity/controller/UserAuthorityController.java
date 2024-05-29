@@ -56,7 +56,9 @@ public class UserAuthorityController {
 
                     "Class Schedule-select","Class Schedule-delete","Class Schedule-update","Class Schedule-insert",
                     "Attendance-select","Attendance-delete","Attendance-update","Attendance-insert",
-                    "Progress Review-select","Progress Review-delete","Progress Review-update","Progress Review-insert"
+                    "Progress Review-select","Progress Review-delete","Progress Review-update","Progress Review-insert",
+
+                    "clinic-select","clinic-delete","clinic-update","clinic-insert"
             );
         }
 
