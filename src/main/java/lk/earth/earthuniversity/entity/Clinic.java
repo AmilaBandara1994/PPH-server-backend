@@ -1,5 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
+import lk.earth.earthuniversity.util.RegexPattern;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -11,36 +13,53 @@ public class Clinic {
     @Id
     @Column(name = "id")
     private Integer id;
+
     @Basic
+    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     @Column(name = "date")
     private Date date;
+
     @Basic
+    @RegexPattern(reg = "^(1[0-2]|0?[1-9])[:][0-5][0-9][:][0-5][0-9]$", msg = "Invalid Time Format")
     @Column(name = "starttime")
     private Time starttime;
+
     @Basic
+    @RegexPattern(reg = "^(1[0-2]|0?[1-9])[:][0-5][0-9][:][0-5][0-9]$", msg = "Invalid Time Format")
     @Column(name = "endtime")
     private Time endtime;
+
     @Basic
+    @RegexPattern(reg = "^\\d{2}$", msg = "Invalid Patient Count")
     @Column(name = "patientcount")
     private Integer patientcount;
+
     @Basic
+    @RegexPattern(reg = "^\\d{2,4}(?:[.]\\d{2})?$", msg="Invalid Total Income")
     @Column(name = "totalincome")
     private BigDecimal totalincome;
+
     @Basic
+    @RegexPattern(reg = "^\\d{2,5}(?:[.]\\d{2})?$", msg="Invalid Doctor Payment")
     @Column(name = "doctorpayment")
     private BigDecimal doctorpayment;
+
     @Basic
     @Column(name = "dopublish")
     private Date dopublish;
+
     @ManyToOne
     @JoinColumn(name = "clinictype_id", referencedColumnName = "id", nullable = false)
     private Clinictype clinictype;
+
     @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
     private Doctor doctor;
+
     @ManyToOne
     @JoinColumn(name = "nurse1_id", referencedColumnName = "id", nullable = false)
     private Employee nurse1;
+
     @ManyToOne
     @JoinColumn(name = "nurse2_id", referencedColumnName = "id")
     private Employee nurse2;
@@ -48,6 +67,7 @@ public class Clinic {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
+
     @ManyToOne
     @JoinColumn(name = "clinicstatus_id", referencedColumnName = "id", nullable = false)
     private Clinicstatus clinicstatus;
@@ -116,6 +136,14 @@ public class Clinic {
 
     public void setDopublish(Date dopublish) {
         this.dopublish = dopublish;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
