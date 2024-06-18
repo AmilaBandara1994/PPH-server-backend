@@ -40,7 +40,7 @@ public class ClinicController {
         Stream<Clinic> clinicStream = clinics.stream();
 
         if(clinictype  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getName().contains(clinictype));
-        if(doctorname  != null) clinicStream = clinicStream.filter(clinic -> clinic.getDoctor().getName().contains(doctorname));
+        if(doctorname  != null) clinicStream = clinicStream.filter(clinic -> clinic.getDoctor().getEmployee().getFullname().contains(doctorname));
         if(clinicstatus  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getName().contains(clinicstatus));
 
         return  clinicStream.collect(Collectors.toList());

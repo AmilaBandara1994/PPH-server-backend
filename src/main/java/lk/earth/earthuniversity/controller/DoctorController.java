@@ -2,6 +2,7 @@ package lk.earth.earthuniversity.controller;
 
 import lk.earth.earthuniversity.dao.DoctorDao;
 import lk.earth.earthuniversity.entity.Doctor;
+import lk.earth.earthuniversity.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @CrossOrigin
 @RestController
@@ -57,6 +56,30 @@ public class DoctorController {
 //    }
 //
 //
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+//    @PreAuthorize("hasAuthority('Employee-Insert')")
+    public HashMap<String,String> add(@RequestBody Doctor doctor){
+
+        HashMap<String,String> response = new HashMap<>();
+        String errors="";
+
+        Integer longId =  doctor.getEmployee().getId();
+
+//        System.out.println(doctorDao.findDoctorByEmployeeId(longId));
+        if(doctorDao.findDoctorByEmployeeId(longId)!=null)
+            errors = errors+"<br> Existing Number";
+
+        if(errors=="")
+            doctorDao.save(doctor);
+        else errors = "Server Validation Errors : <br> "+errors;
+
+        response.put("id",String.valueOf(doctor.getId()));
+        response.put("url","/doctors/"+doctor.getId());
+        response.put("errors",errors);
+
+        return response;
+    }
 //    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
 ////    @PreAuthorize("hasAuthority('Employee-Insert')")
@@ -82,6 +105,8 @@ public class DoctorController {
 //
 //        return responce;
 //    }
+
+
 //
 //    @PutMapping
 //    @ResponseStatus(HttpStatus.CREATED)
@@ -119,12 +144,13 @@ public class DoctorController {
 //        HashMap<String,String> responce = new HashMap<>();
 //        String errors="";
 //
-//        Employee emp1 = employeedao.findByMyId(id);
 //
-//        if(emp1==null)
+//        Doctor doc1 = doctorDao.findByMyId(id);
+//        System.out.println("this is the id "+doc1.getEmployee());
+//        if(doc1==null)
 //            errors = errors+"<br> Employee Does Not Existed";
 //
-//        if(errors=="") employeedao.delete(emp1);
+//        if(errors.isEmpty()) doctorDao.delete(doc1);
 //        else errors = "Server Validation Errors : <br> "+errors;
 //
 //        responce.put("id",String.valueOf(id));
