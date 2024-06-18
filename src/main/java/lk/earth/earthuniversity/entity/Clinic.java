@@ -1,11 +1,13 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.earth.earthuniversity.util.RegexPattern;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Objects;
 
 @Entity
 public class Clinic {
@@ -57,6 +59,7 @@ public class Clinic {
     private Doctor doctor;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "nurse1_id", referencedColumnName = "id", nullable = false)
     private Employee nurse1;
 
@@ -73,6 +76,23 @@ public class Clinic {
     private Clinicstatus clinicstatus;
 
     public Clinic(){}
+    public Clinic(Integer id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Clinic)) return false;
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(getId(), clinic.getId()) && Objects.equals(getDate(), clinic.getDate()) && Objects.equals(getStarttime(), clinic.getStarttime()) && Objects.equals(getEndtime(), clinic.getEndtime()) && Objects.equals(getPatientcount(), clinic.getPatientcount()) && Objects.equals(getTotalincome(), clinic.getTotalincome()) && Objects.equals(getDoctorpayment(), clinic.getDoctorpayment()) && Objects.equals(getDopublish(), clinic.getDopublish()) && Objects.equals(getClinictype(), clinic.getClinictype()) && Objects.equals(getDoctor(), clinic.getDoctor()) && Objects.equals(getNurse1(), clinic.getNurse1()) && Objects.equals(getNurse2(), clinic.getNurse2()) && Objects.equals(getEmployee(), clinic.getEmployee()) && Objects.equals(getClinicstatus(), clinic.getClinicstatus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus());
+    }
 
     public Integer getId() {
         return id;
@@ -138,48 +158,6 @@ public class Clinic {
         this.dopublish = dopublish;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Clinic clinic = (Clinic) o;
-
-        if (id != null ? !id.equals(clinic.id) : clinic.id != null) return false;
-        if (date != null ? !date.equals(clinic.date) : clinic.date != null) return false;
-        if (starttime != null ? !starttime.equals(clinic.starttime) : clinic.starttime != null) return false;
-        if (endtime != null ? !endtime.equals(clinic.endtime) : clinic.endtime != null) return false;
-        if (patientcount != null ? !patientcount.equals(clinic.patientcount) : clinic.patientcount != null)
-            return false;
-        if (totalincome != null ? !totalincome.equals(clinic.totalincome) : clinic.totalincome != null) return false;
-        if (doctorpayment != null ? !doctorpayment.equals(clinic.doctorpayment) : clinic.doctorpayment != null)
-            return false;
-        if (dopublish != null ? !dopublish.equals(clinic.dopublish) : clinic.dopublish != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (starttime != null ? starttime.hashCode() : 0);
-        result = 31 * result + (endtime != null ? endtime.hashCode() : 0);
-        result = 31 * result + (patientcount != null ? patientcount.hashCode() : 0);
-        result = 31 * result + (totalincome != null ? totalincome.hashCode() : 0);
-        result = 31 * result + (doctorpayment != null ? doctorpayment.hashCode() : 0);
-        result = 31 * result + (dopublish != null ? dopublish.hashCode() : 0);
-        return result;
-    }
-
     public Clinictype getClinictype() {
         return clinictype;
     }
@@ -210,6 +188,14 @@ public class Clinic {
 
     public void setNurse2(Employee nurse2) {
         this.nurse2 = nurse2;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Clinicstatus getClinicstatus() {
