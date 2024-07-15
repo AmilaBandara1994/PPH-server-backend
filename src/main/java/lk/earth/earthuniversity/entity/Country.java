@@ -21,9 +21,13 @@ public class Country {
     @JsonIgnore
     @OneToMany(mappedBy = "country")
     private Collection<Doctor> doctors;
+<<<<<<< HEAD
     public Country() { }
     public Country(Integer id) {
         this.id = id;
+=======
+    public Country() {
+>>>>>>> origin/feature/develop/doctor-module
     }
 
     public Integer getId() {

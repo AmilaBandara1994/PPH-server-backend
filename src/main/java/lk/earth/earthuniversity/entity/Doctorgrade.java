@@ -35,9 +35,13 @@ public class Doctorgrade {
         this.name = name;
     }
 
+<<<<<<< HEAD
     public Doctorgrade() {  }
     public Doctorgrade(Integer id) {
         this.id = id;
+=======
+    public Doctorgrade() {
+>>>>>>> origin/feature/develop/doctor-module
     }
 
     @Override

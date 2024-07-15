@@ -19,6 +19,7 @@ public class Degree {
     @OneToMany(mappedBy = "degree")
     private Collection<Doctordegree> doctordegrees;
 
+<<<<<<< HEAD
 
     public Degree() {
     }
@@ -27,6 +28,11 @@ public class Degree {
         this.id = id;
     }
 
+=======
+    public Degree() {
+    }
+
+>>>>>>> origin/feature/develop/doctor-module
     public Integer getId() {
         return id;
     }

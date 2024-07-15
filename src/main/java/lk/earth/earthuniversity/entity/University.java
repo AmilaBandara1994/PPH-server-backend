@@ -54,9 +54,13 @@ public class University {
         return true;
     }
 
+<<<<<<< HEAD
     public University() { }
     public University(Integer id) {
         this.id = id;
+=======
+    public University() {
+>>>>>>> origin/feature/develop/doctor-module
     }
 
     @Override
