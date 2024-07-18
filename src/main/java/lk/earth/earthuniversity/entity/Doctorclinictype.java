@@ -1,6 +1,9 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Doctorclinictype {
@@ -9,15 +12,30 @@ public class Doctorclinictype {
     @Column(name = "id")
     private Integer id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
     private Doctor doctor;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "clinictype_id", referencedColumnName = "id", nullable = false)
     private Clinictype clinictype;
 
     public Doctorclinictype(){}
     public Doctorclinictype(Integer id){
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctorclinictype)) return false;
+        Doctorclinictype that = (Doctorclinictype) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getDoctor(), that.getDoctor()) && Objects.equals(getClinictype(), that.getClinictype());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDoctor(), getClinictype());
     }
 
     public Integer getId() {
@@ -28,22 +46,6 @@ public class Doctorclinictype {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Doctorclinictype that = (Doctorclinictype) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 
     public Doctor getDoctor() {
         return doctor;
