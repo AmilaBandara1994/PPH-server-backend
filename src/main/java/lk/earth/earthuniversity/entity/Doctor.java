@@ -19,6 +19,7 @@ public class Doctor {
     private Collection<Clinic> clinics;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
     private Collection<Doctorclinictype> doctorclinictypes;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "doctor_id")
@@ -53,42 +54,15 @@ public class Doctor {
         this.id = id;
     }
 
+    public Doctor(Employee employee, Integer id) {
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Doctor)) return false;
-        Doctor doctor = (Doctor) o;
-        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry());
-    }
-
-    @Override
-    public String toString() {
-        return "Doctor{" +
-                "id=" + id +
-                ", clinics=" + clinics +
-                ", doctorclinictypes=" + doctorclinictypes +
-                ", doctordegrees=" + doctordegrees +
-                ", description='" + description + '\'' +
-                ", slmcregno='" + slmcregno + '\'' +
-                ", doslmcregisterd=" + doslmcregisterd +
-                ", foreigntraining='" + foreigntraining + '\'' +
-                ", employee=" + employee +
-                ", doctorgrade=" + doctorgrade +
-                ", country=" + country +
-                '}';
     }
 
     public Collection<Clinic> getClinics() {
@@ -114,7 +88,6 @@ public class Doctor {
     public void setDoctordegrees(Collection<Doctordegree> doctordegrees) {
         this.doctordegrees = doctordegrees;
     }
-
 
     public String getDescription() {
         return description;
@@ -148,7 +121,6 @@ public class Doctor {
         this.foreigntraining = foreigntraining;
     }
 
-
     public Employee getEmployee() {
         return employee;
     }
@@ -171,5 +143,35 @@ public class Doctor {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry());
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", clinics=" + clinics +
+                ", doctorclinictypes=" + doctorclinictypes +
+                ", doctordegrees=" + doctordegrees +
+                ", description='" + description + '\'' +
+                ", slmcregno='" + slmcregno + '\'' +
+                ", doslmcregisterd=" + doslmcregisterd +
+                ", foreigntraining='" + foreigntraining + '\'' +
+                ", employee=" + employee +
+                ", doctorgrade=" + doctorgrade +
+                ", country=" + country +
+                '}';
     }
 }
