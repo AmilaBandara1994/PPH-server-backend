@@ -4,6 +4,7 @@ import lk.earth.earthuniversity.dao.ClinicDao;
 import lk.earth.earthuniversity.entity.Clinic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,11 +21,6 @@ public class ClinicController {
     @Autowired
     private ClinicDao clinicDao;
 
-
-//    @GetMapping(produces = "application/json")
-//    public List<Clinic> getAll() {
-//        return  this.clinicDao.findAll();
-//    }
 
     @GetMapping(produces = "application/json")
     public List<Clinic> get(@RequestParam HashMap<String, String> params) {
@@ -45,6 +41,16 @@ public class ClinicController {
 
         return  clinicStream.collect(Collectors.toList());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Clinic> getById(@PathVariable Integer id) {
+        Optional<Clinic> clinic = clinicDao.findById(id);
+        return clinic.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
+
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

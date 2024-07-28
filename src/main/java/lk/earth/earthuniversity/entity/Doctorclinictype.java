@@ -12,7 +12,6 @@ public class Doctorclinictype {
     @Column(name = "id")
     private Integer id;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
     private Doctor doctor;
     @ManyToOne

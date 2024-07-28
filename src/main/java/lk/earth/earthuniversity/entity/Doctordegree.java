@@ -15,6 +15,7 @@ public class Doctordegree {
     @Basic
     @Column(name = "year")
     private String year;
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "doctor_id")
 //    private Doctor doctor;
@@ -25,6 +26,19 @@ public class Doctordegree {
     @JoinColumn(name = "university_id", referencedColumnName = "id", nullable = false)
     private University university;
 
+    public Doctordegree() {
+    }
+
+    public Doctordegree(Integer id) {
+        this.id = id;
+    }
+
+    public Doctordegree(String year, Degree degree, University university) {
+        this.year = year;
+        this.degree = degree;
+        this.university = university;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -33,39 +47,12 @@ public class Doctordegree {
         this.id = id;
     }
 
-
     public String getYear() {
         return year;
     }
 
     public void setYear(String year) {
         this.year = year;
-    }
-
-    public Doctordegree() {
-    }
-
-    @Override
-    public String toString() {
-        return "Doctordegree{" +
-                "id=" + id +
-                ", year=" + year +
-                ", degree=" + degree +
-                ", university=" + university +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Doctordegree)) return false;
-        Doctordegree that = (Doctordegree) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getYear(), that.getYear()) && Objects.equals(getDegree(), that.getDegree()) && Objects.equals(getUniversity(), that.getUniversity());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getYear(), getDegree(), getUniversity());
     }
 
     public Degree getDegree() {
@@ -82,6 +69,30 @@ public class Doctordegree {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctordegree)) return false;
+        Doctordegree that = (Doctordegree) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getYear(), that.getYear()) && Objects.equals(getDegree(), that.getDegree()) && Objects.equals(getUniversity(), that.getUniversity());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getYear(), getDegree(), getUniversity());
+    }
+
+
+    @Override
+    public String toString() {
+        return "Doctordegree{" +
+                "id=" + id +
+                ", year='" + year + '\'' +
+                ", degree=" + degree +
+                ", university=" + university +
+                '}';
     }
 }
 

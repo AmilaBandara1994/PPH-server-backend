@@ -59,7 +59,6 @@ public class Clinic {
     private Doctor doctor;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "nurse1_id", referencedColumnName = "id", nullable = false)
     private Employee nurse1;
 
