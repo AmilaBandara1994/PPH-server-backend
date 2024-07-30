@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,25 @@ public class ClinicController {
     private ClinicDao clinicDao;
 
 
+
+    @GetMapping("/scheduled")
+    public List<Clinic> getByClinictype(@RequestParam HashMap<String, String> params) {
+
+        Date today = new Date();
+        List<Clinic>  clinics = this.clinicDao.getAllUpCommingClinics();
+
+        if(params.isEmpty()) return clinics;
+
+        String clinictypeid = params.get("clinictypeid");
+        String clinicstatusid = params.get("clinicstatusid");
+
+        Stream<Clinic> clinicStream = clinics.stream();
+
+        if(clinictypeid  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getId() == Integer.parseInt(clinictypeid));
+        if(clinicstatusid  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getId() == Integer.parseInt(clinicstatusid));
+
+        return  clinicStream.collect(Collectors.toList());
+    }
     @GetMapping(produces = "application/json")
     public List<Clinic> get(@RequestParam HashMap<String, String> params) {
 
@@ -47,6 +68,8 @@ public class ClinicController {
         Optional<Clinic> clinic = clinicDao.findById(id);
         return clinic.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
 
 
 

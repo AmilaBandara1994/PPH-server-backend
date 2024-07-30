@@ -96,6 +96,23 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
     private Collection<Patient> patients;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Family> families;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Appointment> appointments;
+
+    public Employee(){}
+
+    public Employee(Integer id){
+        this.id = id;
+    }
+
+    public Employee(Integer id, String callingname){
+        this.id = id;
+        this.callingname = callingname;
+    }
 
     public Collection<Doctor> getDoctors() {
         return doctors;
@@ -111,21 +128,6 @@ public class Employee {
 
     public void setFamilies(Collection<Family> families) {
         this.families = families;
-    }
-
-    @OneToMany(mappedBy = "employee")
-    @JsonIgnore
-    private Collection<Family> families;
-
-    public Employee(){}
-
-    public Employee(Integer id){
-        this.id = id;
-    }
-
-    public Employee(Integer id, String callingname){
-        this.id = id;
-        this.callingname = callingname;
     }
 
     @Override
@@ -277,7 +279,6 @@ public class Employee {
         this.description = description;
     }
 
-
     public Gender getGender() {
         return gender;
     }
@@ -342,12 +343,19 @@ public class Employee {
         this.employee = employee;
     }
 
-
     public Collection<Patient> getPatients() {
         return patients;
     }
 
     public void setPatients(Collection<Patient> patients) {
         this.patients = patients;
+    }
+
+    public Collection<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Collection<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

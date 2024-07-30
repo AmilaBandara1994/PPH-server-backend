@@ -1,0 +1,26 @@
+package lk.earth.earthuniversity.dao;
+
+import lk.earth.earthuniversity.entity.Appointment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+public interface AppointmentDao extends JpaRepository<Appointment,Integer> {
+    @Query(value = "select a  from Appointment a where a.id = :id")
+    Appointment findByMyId(@Param("id") Integer id);
+
+    @Query(value = "select a  from Appointment a where a.number = :number")
+    Appointment findByNumber(@Param("number") Integer number);
+
+    @Query(value = "select count(*)  from Appointment a where a.clinic.id = :id")
+    Long countByClinic(@Param("id") Integer id);
+
+
+
+//    @Query(value = "select d from Doctor d join Doctorclinictype dc on  dc.doctor.id = d.id join Clinictype  c on dc.clinictype.id = c.id where c.id = :id")
+//    List<Doctor> findAllDoctorsByCategoryId(@Param("id") Integer id);
+//
+//    @Query(value = "SELECT d.id FROM Doctor d where d.employee.id = :id")
+//    Doctor findDoctorByEmployeeId(@Param("id") int id);
+}
+
