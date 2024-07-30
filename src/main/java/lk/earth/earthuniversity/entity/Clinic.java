@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.earth.earthuniversity.util.RegexPattern;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,11 @@ public class Clinic {
     @Column(name = "id")
     private Integer id;
 
+
+    @Basic
+    @Column(name = "name")
+    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid name")
+    private String name;
     @Basic
     @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     @Column(name = "date")
@@ -73,25 +80,15 @@ public class Clinic {
     @ManyToOne
     @JoinColumn(name = "clinicstatus_id", referencedColumnName = "id", nullable = false)
     private Clinicstatus clinicstatus;
-
+    @OneToMany(mappedBy = "clinic")
+    @JsonIgnore
+    private Collection<Appointment> appointments;
     public Clinic(){}
+
     public Clinic(Integer id) {
         this.id = id;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Clinic)) return false;
-        Clinic clinic = (Clinic) o;
-        return Objects.equals(getId(), clinic.getId()) && Objects.equals(getDate(), clinic.getDate()) && Objects.equals(getStarttime(), clinic.getStarttime()) && Objects.equals(getEndtime(), clinic.getEndtime()) && Objects.equals(getPatientcount(), clinic.getPatientcount()) && Objects.equals(getTotalincome(), clinic.getTotalincome()) && Objects.equals(getDoctorpayment(), clinic.getDoctorpayment()) && Objects.equals(getDopublish(), clinic.getDopublish()) && Objects.equals(getClinictype(), clinic.getClinictype()) && Objects.equals(getDoctor(), clinic.getDoctor()) && Objects.equals(getNurse1(), clinic.getNurse1()) && Objects.equals(getNurse2(), clinic.getNurse2()) && Objects.equals(getEmployee(), clinic.getEmployee()) && Objects.equals(getClinicstatus(), clinic.getClinicstatus());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus());
-    }
 
     public Integer getId() {
         return id;
@@ -99,6 +96,14 @@ public class Clinic {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getDate() {
@@ -203,5 +208,26 @@ public class Clinic {
 
     public void setClinicstatus(Clinicstatus clinicstatus) {
         this.clinicstatus = clinicstatus;
+    }
+
+    public Collection<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Collection<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Clinic)) return false;
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(getId(), clinic.getId()) && Objects.equals(getName(), clinic.getName()) && Objects.equals(getDate(), clinic.getDate()) && Objects.equals(getStarttime(), clinic.getStarttime()) && Objects.equals(getEndtime(), clinic.getEndtime()) && Objects.equals(getPatientcount(), clinic.getPatientcount()) && Objects.equals(getTotalincome(), clinic.getTotalincome()) && Objects.equals(getDoctorpayment(), clinic.getDoctorpayment()) && Objects.equals(getDopublish(), clinic.getDopublish()) && Objects.equals(getClinictype(), clinic.getClinictype()) && Objects.equals(getDoctor(), clinic.getDoctor()) && Objects.equals(getNurse1(), clinic.getNurse1()) && Objects.equals(getNurse2(), clinic.getNurse2()) && Objects.equals(getEmployee(), clinic.getEmployee()) && Objects.equals(getClinicstatus(), clinic.getClinicstatus()) && Objects.equals(getAppointments(), clinic.getAppointments());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus(), getAppointments());
     }
 }

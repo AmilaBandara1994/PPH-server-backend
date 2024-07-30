@@ -49,11 +49,9 @@ public class Doctor {
     private Country country;
 
     public Doctor(){}
-
     public Doctor(Integer id ){
         this.id = id;
     }
-
     public Doctor(Employee employee, Integer id) {
     }
 
@@ -156,22 +154,5 @@ public class Doctor {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry());
-    }
-
-    @Override
-    public String toString() {
-        return "Doctor{" +
-                "id=" + id +
-                ", clinics=" + clinics +
-                ", doctorclinictypes=" + doctorclinictypes +
-                ", doctordegrees=" + doctordegrees +
-                ", description='" + description + '\'' +
-                ", slmcregno='" + slmcregno + '\'' +
-                ", doslmcregisterd=" + doslmcregisterd +
-                ", foreigntraining='" + foreigntraining + '\'' +
-                ", employee=" + employee +
-                ", doctorgrade=" + doctorgrade +
-                ", country=" + country +
-                '}';
     }
 }

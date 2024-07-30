@@ -58,6 +58,9 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
     private Collection<Patientriskfactor> patientriskfactors;
+    @OneToMany(mappedBy = "patient")
+    @JsonIgnore
+    private Collection<Appointment> appointments;
 
     public Collection<Patientriskfactor> getPatientriskfactors() {
         return patientriskfactors;
@@ -184,14 +187,21 @@ public class Patient {
         if (this == o) return true;
         if (!(o instanceof Patient)) return false;
         Patient patient = (Patient) o;
-        return Objects.equals(getId(), patient.getId()) && Objects.equals(getName(), patient.getName()) && Objects.equals(getDob(), patient.getDob()) && Objects.equals(getNic(), patient.getNic()) && Arrays.equals(getPhoto(), patient.getPhoto()) && Objects.equals(getContactnumber(), patient.getContactnumber()) && Objects.equals(getEmail(), patient.getEmail()) && Objects.equals(getDescription(), patient.getDescription()) && Objects.equals(getPatientstatus(), patient.getPatientstatus()) && Objects.equals(getGender(), patient.getGender()) && Objects.equals(getBloodgroup(), patient.getBloodgroup()) && Objects.equals(getEmployee(), patient.getEmployee()) && Objects.equals(getFamily(), patient.getFamily()) && Objects.equals(getRelationship(), patient.getRelationship()) && Objects.equals(getPatientriskfactors(), patient.getPatientriskfactors());
+        return Objects.equals(getId(), patient.getId()) && Objects.equals(getName(), patient.getName()) && Objects.equals(getDob(), patient.getDob()) && Objects.equals(getNic(), patient.getNic()) && Arrays.equals(getPhoto(), patient.getPhoto()) && Objects.equals(getContactnumber(), patient.getContactnumber()) && Objects.equals(getEmail(), patient.getEmail()) && Objects.equals(getDescription(), patient.getDescription()) && Objects.equals(getPatientstatus(), patient.getPatientstatus()) && Objects.equals(getGender(), patient.getGender()) && Objects.equals(getBloodgroup(), patient.getBloodgroup()) && Objects.equals(getEmployee(), patient.getEmployee()) && Objects.equals(getFamily(), patient.getFamily()) && Objects.equals(getRelationship(), patient.getRelationship()) && Objects.equals(getPatientriskfactors(), patient.getPatientriskfactors()) && Objects.equals(getAppointments(), patient.getAppointments());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getId(), getName(), getDob(), getNic(), getContactnumber(), getEmail(), getDescription(), getPatientstatus(), getGender(), getBloodgroup(), getEmployee(), getFamily(), getRelationship(), getPatientriskfactors());
+        int result = Objects.hash(getId(), getName(), getDob(), getNic(), getContactnumber(), getEmail(), getDescription(), getPatientstatus(), getGender(), getBloodgroup(), getEmployee(), getFamily(), getRelationship(), getPatientriskfactors(), getAppointments());
         result = 31 * result + Arrays.hashCode(getPhoto());
         return result;
     }
 
+    public Collection<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Collection<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }

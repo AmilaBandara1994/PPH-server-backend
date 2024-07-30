@@ -83,17 +83,6 @@ public class Doctordegree {
     public int hashCode() {
         return Objects.hash(getId(), getYear(), getDegree(), getUniversity());
     }
-
-
-    @Override
-    public String toString() {
-        return "Doctordegree{" +
-                "id=" + id +
-                ", year='" + year + '\'' +
-                ", degree=" + degree +
-                ", university=" + university +
-                '}';
-    }
 }
 
 
