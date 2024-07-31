@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Gender {
+public class Clinictype {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -16,12 +16,16 @@ public class Gender {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "gender")
-    private Collection<Employee> employees;
-    @OneToMany(mappedBy = "gender")
-    @JsonIgnore
-    private Collection<Patient> patientsById;
+    @OneToMany(mappedBy = "clinictype")
+    private Collection<Clinic> clinics;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinictype")
+    private Collection<Doctorclinictype> doctorclinictypes;
+    public Clinictype(){}
+    public Clinictype(Integer id){
+        this.id = id;
+    }
     public Integer getId() {
         return id;
     }
@@ -43,10 +47,10 @@ public class Gender {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Gender gender = (Gender) o;
+        Clinictype that = (Clinictype) o;
 
-        if (id != null ? !id.equals(gender.id) : gender.id != null) return false;
-        if (name != null ? !name.equals(gender.name) : gender.name != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
     }
@@ -58,19 +62,19 @@ public class Gender {
         return result;
     }
 
-    public Collection<Employee> getEmployees() {
-        return employees;
+    public Collection<Clinic> getClinics() {
+        return clinics;
     }
 
-    public void setEmployees(Collection<Employee> employees) {
-        this.employees = employees;
+    public void setClinics(Collection<Clinic> clinics) {
+        this.clinics = clinics;
     }
 
-    public Collection<Patient> getPatientsById() {
-        return patientsById;
+    public Collection<Doctorclinictype> getDoctorclinictypes() {
+        return doctorclinictypes;
     }
 
-    public void setPatientsById(Collection<Patient> patientsById) {
-        this.patientsById = patientsById;
+    public void setDoctorclinictypes(Collection<Doctorclinictype> doctorclinictypes) {
+        this.doctorclinictypes = doctorclinictypes;
     }
 }

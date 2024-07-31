@@ -1,6 +1,8 @@
 package lk.earth.earthuniversity.report;
 
+import lk.earth.earthuniversity.report.dao.ClinicCountByClinictypeDao;
 import lk.earth.earthuniversity.report.dao.CountByDesignaitonDao;
+import lk.earth.earthuniversity.report.entity.ClinicCountByClinictype;
 import lk.earth.earthuniversity.report.entity.CountByDesignation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 public class ReportController {
     @Autowired
     private CountByDesignaitonDao countbydesignaitondao;
+
+    @Autowired
+    private ClinicCountByClinictypeDao clinicCountByClinictypeDao;
 
     @GetMapping(path ="/countbydesignation",produces = "application/json")
     public List<CountByDesignation> get() {
@@ -36,6 +41,12 @@ public class ReportController {
         }
 
         return designations;
+    }
+
+    @GetMapping(path ="/cliniccountbyclinictype",produces = "application/json")
+    public List<ClinicCountByClinictype> getClinic() {
+        List<ClinicCountByClinictype> clinicCountByClinictypes = this.clinicCountByClinictypeDao.clinicCountByClinicType();
+        return clinicCountByClinictypes;
     }
 }
 

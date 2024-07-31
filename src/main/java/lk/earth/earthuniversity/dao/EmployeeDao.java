@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface EmployeeDao extends JpaRepository<Employee,Integer> {
 
     Employee findByNumber(String number);
+
+
     Employee findByNic(String nic);
     Optional<Employee> findById(Integer id);
 

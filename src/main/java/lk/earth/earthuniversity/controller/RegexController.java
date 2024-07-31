@@ -1,5 +1,6 @@
 package lk.earth.earthuniversity.controller;
 
+import lk.earth.earthuniversity.entity.Clinic;
 import lk.earth.earthuniversity.entity.Employee;
 import lk.earth.earthuniversity.entity.User;
 import lk.earth.earthuniversity.util.RegexProvider;
@@ -21,11 +22,15 @@ public class RegexController {
         return RegexProvider.get(new Employee());
     }
 
+    @GetMapping(path ="/clinic", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> clinic() {
+        return RegexProvider.get(new Clinic());
+    }
+
     @GetMapping(path ="/users", produces = "application/json")
     public HashMap<String, HashMap<String, String>> user() {
         return RegexProvider.get(new User());
     }
-
 
 }
 

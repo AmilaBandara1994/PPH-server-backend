@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Gender {
+public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -14,13 +14,17 @@ public class Gender {
     @Basic
     @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "country")
+    private Collection<University> universities;
+
 
     @JsonIgnore
-    @OneToMany(mappedBy = "gender")
-    private Collection<Employee> employees;
-    @OneToMany(mappedBy = "gender")
-    @JsonIgnore
-    private Collection<Patient> patientsById;
+    @OneToMany(mappedBy = "country")
+    private Collection<Doctor> doctors;
+    public Country() { }
+    public Country(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -43,10 +47,10 @@ public class Gender {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Gender gender = (Gender) o;
+        Country country = (Country) o;
 
-        if (id != null ? !id.equals(gender.id) : gender.id != null) return false;
-        if (name != null ? !name.equals(gender.name) : gender.name != null) return false;
+        if (id != null ? !id.equals(country.id) : country.id != null) return false;
+        if (name != null ? !name.equals(country.name) : country.name != null) return false;
 
         return true;
     }
@@ -58,19 +62,19 @@ public class Gender {
         return result;
     }
 
-    public Collection<Employee> getEmployees() {
-        return employees;
+    public Collection<University> getUniversities() {
+        return universities;
     }
 
-    public void setEmployees(Collection<Employee> employees) {
-        this.employees = employees;
+    public void setUniversities(Collection<University> universities) {
+        this.universities = universities;
     }
 
-    public Collection<Patient> getPatientsById() {
-        return patientsById;
+    public Collection<Doctor> getDoctors() {
+        return doctors;
     }
 
-    public void setPatientsById(Collection<Patient> patientsById) {
-        this.patientsById = patientsById;
+    public void setDoctors(Collection<Doctor> doctors) {
+        this.doctors = doctors;
     }
 }

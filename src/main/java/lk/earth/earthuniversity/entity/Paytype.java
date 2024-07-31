@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Gender {
+public class Paytype {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -14,13 +14,9 @@ public class Gender {
     @Basic
     @Column(name = "name")
     private String name;
-
+    @OneToMany(mappedBy = "paytype")
     @JsonIgnore
-    @OneToMany(mappedBy = "gender")
-    private Collection<Employee> employees;
-    @OneToMany(mappedBy = "gender")
-    @JsonIgnore
-    private Collection<Patient> patientsById;
+    private Collection<Patientpayment> patientpayments;
 
     public Integer getId() {
         return id;
@@ -43,10 +39,10 @@ public class Gender {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Gender gender = (Gender) o;
+        Paytype paytype = (Paytype) o;
 
-        if (id != null ? !id.equals(gender.id) : gender.id != null) return false;
-        if (name != null ? !name.equals(gender.name) : gender.name != null) return false;
+        if (id != null ? !id.equals(paytype.id) : paytype.id != null) return false;
+        if (name != null ? !name.equals(paytype.name) : paytype.name != null) return false;
 
         return true;
     }
@@ -58,19 +54,11 @@ public class Gender {
         return result;
     }
 
-    public Collection<Employee> getEmployees() {
-        return employees;
+    public Collection<Patientpayment> getPatientpayments() {
+        return patientpayments;
     }
 
-    public void setEmployees(Collection<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public Collection<Patient> getPatientsById() {
-        return patientsById;
-    }
-
-    public void setPatientsById(Collection<Patient> patientsById) {
-        this.patientsById = patientsById;
+    public void setPatientpayments(Collection<Patientpayment> patientpayments) {
+        this.patientpayments = patientpayments;
     }
 }

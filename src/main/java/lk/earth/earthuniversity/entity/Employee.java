@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Employee {
@@ -78,7 +79,38 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Collection<User> users;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "nurse1")
+    private Collection<Clinic> nurse1;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "nurse2")
+    private Collection<Clinic> nurse2;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Clinic> employee;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Doctor> doctors;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Patient> patients;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Family> families;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Appointment> appointments;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Patientpayment> patientpayments;
+
     public Employee(){}
+
+    public Employee(Integer id){
+        this.id = id;
+    }
 
     public Employee(Integer id, String callingname){
         this.id = id;
@@ -189,51 +221,6 @@ public class Employee {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employee employee = (Employee) o;
-
-        if (id != null ? !id.equals(employee.id) : employee.id != null) return false;
-        if (number != null ? !number.equals(employee.number) : employee.number != null) return false;
-        if (fullname != null ? !fullname.equals(employee.fullname) : employee.fullname != null) return false;
-        if (callingname != null ? !callingname.equals(employee.callingname) : employee.callingname != null)
-            return false;
-        if (!Arrays.equals(photo, employee.photo)) return false;
-        if (dobirth != null ? !dobirth.equals(employee.dobirth) : employee.dobirth != null) return false;
-        if (nic != null ? !nic.equals(employee.nic) : employee.nic != null) return false;
-        if (address != null ? !address.equals(employee.address) : employee.address != null) return false;
-        if (mobile != null ? !mobile.equals(employee.mobile) : employee.mobile != null) return false;
-        if (land != null ? !land.equals(employee.land) : employee.land != null) return false;
-        if (email != null ? !email.equals(employee.email) : employee.email != null) return false;
-        if (doassignment != null ? !doassignment.equals(employee.doassignment) : employee.doassignment != null)
-            return false;
-        if (description != null ? !description.equals(employee.description) : employee.description != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (number != null ? number.hashCode() : 0);
-        result = 31 * result + (fullname != null ? fullname.hashCode() : 0);
-        result = 31 * result + (callingname != null ? callingname.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(photo);
-        result = 31 * result + (dobirth != null ? dobirth.hashCode() : 0);
-        result = 31 * result + (nic != null ? nic.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
-        result = 31 * result + (land != null ? land.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (doassignment != null ? doassignment.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -272,5 +259,117 @@ public class Employee {
 
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    public Collection<Clinic> getNurse1() {
+        return nurse1;
+    }
+
+    public void setNurse1(Collection<Clinic> nurse1) {
+        this.nurse1 = nurse1;
+    }
+
+    public Collection<Clinic> getNurse2() {
+        return nurse2;
+    }
+
+    public void setNurse2(Collection<Clinic> nurse2) {
+        this.nurse2 = nurse2;
+    }
+
+    public Collection<Clinic> getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Collection<Clinic> employee) {
+        this.employee = employee;
+    }
+
+    public Collection<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Collection<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public Collection<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Collection<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public Collection<Family> getFamilies() {
+        return families;
+    }
+
+    public void setFamilies(Collection<Family> families) {
+        this.families = families;
+    }
+
+    public Collection<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Collection<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public Collection<Patientpayment> getPatientpayments() {
+        return patientpayments;
+    }
+
+    public void setPatientpayments(Collection<Patientpayment> patientpayments) {
+        this.patientpayments = patientpayments;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee1 = (Employee) o;
+        return Objects.equals(getId(), employee1.getId()) && Objects.equals(getNumber(), employee1.getNumber()) && Objects.equals(getFullname(), employee1.getFullname()) && Objects.equals(getCallingname(), employee1.getCallingname()) && Arrays.equals(getPhoto(), employee1.getPhoto()) && Objects.equals(getDobirth(), employee1.getDobirth()) && Objects.equals(getNic(), employee1.getNic()) && Objects.equals(getAddress(), employee1.getAddress()) && Objects.equals(getMobile(), employee1.getMobile()) && Objects.equals(getLand(), employee1.getLand()) && Objects.equals(getEmail(), employee1.getEmail()) && Objects.equals(getDoassignment(), employee1.getDoassignment()) && Objects.equals(getDescription(), employee1.getDescription()) && Objects.equals(getGender(), employee1.getGender()) && Objects.equals(getEmptype(), employee1.getEmptype()) && Objects.equals(getDesignation(), employee1.getDesignation()) && Objects.equals(getEmpstatus(), employee1.getEmpstatus()) && Objects.equals(getUsers(), employee1.getUsers()) && Objects.equals(getNurse1(), employee1.getNurse1()) && Objects.equals(getNurse2(), employee1.getNurse2()) && Objects.equals(getEmployee(), employee1.getEmployee()) && Objects.equals(getDoctors(), employee1.getDoctors()) && Objects.equals(getPatients(), employee1.getPatients()) && Objects.equals(getFamilies(), employee1.getFamilies()) && Objects.equals(getAppointments(), employee1.getAppointments()) && Objects.equals(getPatientpayments(), employee1.getPatientpayments());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getId(), getNumber(), getFullname(), getCallingname(), getDobirth(), getNic(), getAddress(), getMobile(), getLand(), getEmail(), getDoassignment(), getDescription(), getGender(), getEmptype(), getDesignation(), getEmpstatus(), getUsers(), getNurse1(), getNurse2(), getEmployee(), getDoctors(), getPatients(), getFamilies(), getAppointments(), getPatientpayments());
+        result = 31 * result + Arrays.hashCode(getPhoto());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", callingname='" + callingname + '\'' +
+                ", photo=" + Arrays.toString(photo) +
+                ", dobirth=" + dobirth +
+                ", nic='" + nic + '\'' +
+                ", address='" + address + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", land='" + land + '\'' +
+                ", email='" + email + '\'' +
+                ", doassignment=" + doassignment +
+                ", description='" + description + '\'' +
+                ", gender=" + gender +
+                ", emptype=" + emptype +
+                ", designation=" + designation +
+                ", empstatus=" + empstatus +
+                ", users=" + users +
+                ", nurse1=" + nurse1 +
+                ", nurse2=" + nurse2 +
+                ", employee=" + employee +
+                ", doctors=" + doctors +
+                ", patients=" + patients +
+                ", families=" + families +
+                ", appointments=" + appointments +
+                ", patientpayments=" + patientpayments +
+                '}';
     }
 }
