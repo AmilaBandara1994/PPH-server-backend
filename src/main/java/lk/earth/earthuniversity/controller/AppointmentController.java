@@ -58,6 +58,12 @@ public class AppointmentController {
         Appointment appointment = this.appointmentDao.findByMyId(id);
         return appointment;
     }
+    @GetMapping(path ="/patientid/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Appointment> getbypatientid(@PathVariable Integer id) {
+        List<Appointment> appointments = this.appointmentDao.findByPatientId(id);
+        return appointments;
+    }
 
     @GetMapping(path ="/countbyclinic/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -36,6 +37,9 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "appointmenttype_id", referencedColumnName = "id", nullable = false)
     private Appointmenttype appointmenttype;
+    @OneToMany(mappedBy = "appointment")
+    @JsonIgnore
+    private Collection<Patientpayment> patientpayments;
 
     public Integer getId() {
         return id;
@@ -120,5 +124,13 @@ public class Appointment {
 
     public void setAppointmenttype(Appointmenttype appointmenttype) {
         this.appointmenttype = appointmenttype;
+    }
+
+    public Collection<Patientpayment> getPatientpayments() {
+        return patientpayments;
+    }
+
+    public void setPatientpayments(Collection<Patientpayment> patientpayments) {
+        this.patientpayments = patientpayments;
     }
 }
