@@ -105,6 +105,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
     private Collection<Patientpayment> patientpayments;
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Drug> drugs;
 
     public Employee(){}
 
@@ -325,7 +328,6 @@ public class Employee {
         this.patientpayments = patientpayments;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -371,5 +373,13 @@ public class Employee {
                 ", appointments=" + appointments +
                 ", patientpayments=" + patientpayments +
                 '}';
+    }
+
+    public Collection<Drug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(Collection<Drug> drugs) {
+        this.drugs = drugs;
     }
 }
