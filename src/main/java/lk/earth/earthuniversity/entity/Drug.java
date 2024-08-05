@@ -1,5 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
@@ -83,7 +85,9 @@ public class Drug {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "drug_id")
     private Collection<Drugindication> drugindications;
-
+    @OneToMany(mappedBy = "drug")
+    @JsonIgnore
+    private Collection<Prescriptiondrug> prescriptiondrugs;
 
     public Integer getId() {
         return id;
@@ -258,5 +262,13 @@ public class Drug {
         int result = Objects.hash(getId(), getStrength(), getCode(), getName(), getDescription(), getQoh(), getRop(), getSprice(), getPprice(), getDointroduced(), getGeneric(), getBrand(), getDrugform(), getDrugroute(), getDrugstatus(), getEmployee(), getDrugadverseeffects(), getDrugcontraindications(), getDrugindications());
         result = 31 * result + Arrays.hashCode(getPhoto());
         return result;
+    }
+
+    public Collection<Prescriptiondrug> getPrescriptiondrugs() {
+        return prescriptiondrugs;
+    }
+
+    public void setPrescriptiondrugs(Collection<Prescriptiondrug> prescriptiondrugs) {
+        this.prescriptiondrugs = prescriptiondrugs;
     }
 }
