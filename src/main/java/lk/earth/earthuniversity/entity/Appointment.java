@@ -45,6 +45,9 @@ public class Appointment {
     @OneToMany(mappedBy = "appointment")
     @JsonIgnore
     private Collection<Diagnosis> diagnoses;
+    @OneToMany(mappedBy = "appointment")
+    @JsonIgnore
+    private Collection<Prescription> prescriptions;
 
     public Integer getId() {
         return id;
@@ -145,5 +148,13 @@ public class Appointment {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getNumber(), getDate(), getDescription(), getClinic(), getPatient(), getAppointmentstatus(), getEmployee(), getAppointmenttype(), getPatientpayments(), getDiagnoses());
+    }
+
+    public Collection<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(Collection<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 }

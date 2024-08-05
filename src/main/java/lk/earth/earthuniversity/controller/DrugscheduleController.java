@@ -1,7 +1,7 @@
 package lk.earth.earthuniversity.controller;
 
-import lk.earth.earthuniversity.dao.BankDao;
-import lk.earth.earthuniversity.entity.Bank;
+import lk.earth.earthuniversity.dao.DrugscheduleDao;
+import lk.earth.earthuniversity.entity.Drugschedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,25 +13,25 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/banks")
-public class BankController {
+@RequestMapping(value = "/drugschedules")
+public class DrugscheduleController {
 
     @Autowired
-    private BankDao bankDao;
+    private DrugscheduleDao drugscheduleDao;
 
     @GetMapping(path ="/list",produces = "application/json")
-    public List<Bank> get() {
+    public List<Drugschedule> get() {
 
-        List<Bank> banks = this.bankDao.findAll();
+        List<Drugschedule> drugschedules = this.drugscheduleDao.findAll();
 
-        banks = banks.stream().map(
-                bank -> { Bank b = new Bank();
-                    b.setId(bank.getId());
-                    b.setName(bank.getName());
+        drugschedules = drugschedules.stream().map(
+                drugschedule -> { Drugschedule b = new Drugschedule();
+                    b.setId(drugschedule.getId());
+                    b.setName(drugschedule.getName());
                     return b; }
         ).collect(Collectors.toList());
 
-        return banks;
+        return drugschedules;
 
     }
 

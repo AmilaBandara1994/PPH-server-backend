@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/doctorgrades")
-public class DcontorgradeController {
+public class DoctorgradeController {
 
     @Autowired
     private DoctorgradeDao doctorgradeDao;
