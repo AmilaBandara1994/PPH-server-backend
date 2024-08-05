@@ -61,6 +61,11 @@ public class EmployeeController {
 
     }
 
+    @GetMapping(path ="/countbydesination/{id}",produces = "application/json")
+    public Long getcountbydesignation(@PathVariable Integer id) {
+        return  this.employeedao.countByDesignation(id);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

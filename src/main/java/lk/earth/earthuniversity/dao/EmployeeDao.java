@@ -18,6 +18,8 @@ public interface EmployeeDao extends JpaRepository<Employee,Integer> {
 
     @Query("select e from Employee e where e.id = :id")
     Employee findByMyId(@Param("id") Integer id);
+    @Query("select count(e) from Employee e where e.designation.id = :id")
+    Long countByDesignation(@Param("id") Integer id);
 
     @Query("SELECT NEW Employee (e.id, e.callingname) FROM Employee e")
     List<Employee> findAllNameId();

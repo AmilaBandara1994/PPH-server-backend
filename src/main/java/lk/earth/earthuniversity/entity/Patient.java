@@ -3,7 +3,9 @@ package lk.earth.earthuniversity.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -16,22 +18,26 @@ public class Patient {
     private Integer id;
     @Basic
     @Column(name = "name")
+    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid Name")
     private String name;
     @Basic
     @Column(name = "dob")
     private Date dob;
     @Basic
     @Column(name = "nic")
+    @Pattern(regexp = "^(([\\d]{9}[vVxX])|([\\d]{12}))$", message = "Invalid NIC")
     private String nic;
     @Basic
     @Column(name = "photo")
     private byte[] photo;
     @Basic
     @Column(name = "contactnumber")
+    @Pattern(regexp = "^0\\d{9}$", message = "Invalid Mobile Number")
     private String contactnumber;
 
     @Basic
     @Column(name = "email")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid Email")
     private String email;
     @Basic
     @Column(name = "description")
@@ -61,6 +67,9 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
     private Collection<Appointment> appointments;
+    @Basic
+    @Column(name = "doregister")
+    private Timestamp doregister;
 
     public Collection<Patientriskfactor> getPatientriskfactors() {
         return patientriskfactors;
@@ -203,5 +212,13 @@ public class Patient {
 
     public void setAppointments(Collection<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public Timestamp getDoregister() {
+        return doregister;
+    }
+
+    public void setDoregister(Timestamp doregister) {
+        this.doregister = doregister;
     }
 }

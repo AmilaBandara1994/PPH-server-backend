@@ -25,13 +25,6 @@ public interface DrugDao extends JpaRepository<Drug,Integer> {
     Drug findByDrugCodeName( @Param("code") String code,  @Param("name") String name  );
 
 
-//    @Query(value = "select a from Drug a where a.patient.id = :patientid")
-//    List<Drug> findByPatientId(@Param("patientid") Integer patientid);
-//
-//
-//
-//    @Query(value = "select count(*)  from Drug a where a.clinic.id = :id")
-//    Long countByClinic(@Param("id") Integer id);
 
 }
 

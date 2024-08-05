@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +80,6 @@ public class ClinicController {
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Employee-Insert')")
     public HashMap<String,String> add(@RequestBody Clinic clinic){
-        System.out.println( " this is object of clinic " + clinic);
 
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
@@ -91,9 +91,12 @@ public class ClinicController {
 
         System.out.println(clinic);
 
-        if(errors=="")
+        if(errors=="") {
+            clinic.setDopublish(new Timestamp( new Date().getTime()));
             clinicDao.save(clinic);
-        else errors = "Server Validation Errors : <br> "+errors;
+        } else {
+            errors = "Server Validation Errors : <br> "+errors;
+        }
 
         responce.put("id",String.valueOf(clinic.getId()));
         responce.put("url","/clinics/"+clinic.getId());

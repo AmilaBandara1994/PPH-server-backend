@@ -88,9 +88,9 @@ public class DrugController {
 
             drug.setDointroduced(new Timestamp( new Date().getTime()));
             drugDao.save(drug);
+        }else{
+            errors = "Server Validation Errors : <br> "+errors;
         }
-
-        else errors = "Server Validation Errors : <br> "+errors;
 
         response.put("id",String.valueOf(drug.getId()));
         response.put("url","/drugs/"+drug.getId());
