@@ -42,7 +42,7 @@ public class PatientpaymentController {
 
 
         if(paytypeid!=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getPaytype().getId() ==Integer.parseInt(paytypeid));
-        if(appointmentnumber!=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getAppointment().getNumber() ==Integer.parseInt(appointmentnumber));
+        if(appointmentnumber!=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getAppointment().getNumber().contains(appointmentnumber));
         if(paymentstatusid!=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getPaymentstatus().getId() ==Integer.parseInt(paymentstatusid));
         if(clinictypeid !=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getAppointment().getClinic().getId() ==Integer.parseInt(clinictypeid));
         if(patientnic!=null) patientpaymentStream = patientpaymentStream.filter(a -> a.getAppointment().getPatient().getNic().equals(patientnic));
@@ -85,9 +85,9 @@ public class PatientpaymentController {
         if(errors == ""){
             patientpayment.setDate(new Timestamp( new Date().getTime()));
             patientpaymentDao.save(patientpayment);
+        }else{
+            errors = "Server Validation Errors : <br> "+errors;
         }
-
-        else errors = "Server Validation Errors : <br> "+errors;
 
         response.put("id",String.valueOf(patientpayment.getId()));
         response.put("url","/patientpayments/"+patientpayment.getId());

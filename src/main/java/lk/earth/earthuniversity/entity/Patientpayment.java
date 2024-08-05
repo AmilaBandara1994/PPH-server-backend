@@ -3,6 +3,7 @@ package lk.earth.earthuniversity.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -15,7 +16,9 @@ public class Patientpayment {
     private Integer id;
     @Basic
     @Column(name = "amount")
+    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Invalid Amount")
     private BigDecimal amount;
+
     @Basic
     @Column(name = "description")
     private String description;

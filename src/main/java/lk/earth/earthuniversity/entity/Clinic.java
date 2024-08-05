@@ -6,8 +6,10 @@ import lk.earth.earthuniversity.util.RegexPattern;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
+
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -55,7 +57,7 @@ public class Clinic {
 
     @Basic
     @Column(name = "dopublish")
-    private Date dopublish;
+    private Timestamp dopublish;
 
     @ManyToOne
     @JoinColumn(name = "clinictype_id", referencedColumnName = "id", nullable = false)
@@ -158,11 +160,11 @@ public class Clinic {
         this.doctorpayment = doctorpayment;
     }
 
-    public Date getDopublish() {
+    public Timestamp getDopublish() {
         return dopublish;
     }
 
-    public void setDopublish(Date dopublish) {
+    public void setDopublish(Timestamp dopublish) {
         this.dopublish = dopublish;
     }
 
@@ -222,24 +224,24 @@ public class Clinic {
         this.appointments = appointments;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Clinic)) return false;
-        Clinic clinic = (Clinic) o;
-        return Objects.equals(getId(), clinic.getId()) && Objects.equals(getName(), clinic.getName()) && Objects.equals(getDate(), clinic.getDate()) && Objects.equals(getStarttime(), clinic.getStarttime()) && Objects.equals(getEndtime(), clinic.getEndtime()) && Objects.equals(getPatientcount(), clinic.getPatientcount()) && Objects.equals(getTotalincome(), clinic.getTotalincome()) && Objects.equals(getDoctorpayment(), clinic.getDoctorpayment()) && Objects.equals(getDopublish(), clinic.getDopublish()) && Objects.equals(getClinictype(), clinic.getClinictype()) && Objects.equals(getDoctor(), clinic.getDoctor()) && Objects.equals(getNurse1(), clinic.getNurse1()) && Objects.equals(getNurse2(), clinic.getNurse2()) && Objects.equals(getEmployee(), clinic.getEmployee()) && Objects.equals(getClinicstatus(), clinic.getClinicstatus()) && Objects.equals(getAppointments(), clinic.getAppointments());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus(), getAppointments());
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Clinic)) return false;
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(getId(), clinic.getId()) && Objects.equals(getName(), clinic.getName()) && Objects.equals(getDate(), clinic.getDate()) && Objects.equals(getStarttime(), clinic.getStarttime()) && Objects.equals(getEndtime(), clinic.getEndtime()) && Objects.equals(getPatientcount(), clinic.getPatientcount()) && Objects.equals(getTotalincome(), clinic.getTotalincome()) && Objects.equals(getDoctorpayment(), clinic.getDoctorpayment()) && Objects.equals(getDopublish(), clinic.getDopublish()) && Objects.equals(getClinictype(), clinic.getClinictype()) && Objects.equals(getDoctor(), clinic.getDoctor()) && Objects.equals(getNurse1(), clinic.getNurse1()) && Objects.equals(getNurse2(), clinic.getNurse2()) && Objects.equals(getEmployee(), clinic.getEmployee()) && Objects.equals(getClinicstatus(), clinic.getClinicstatus()) && Objects.equals(getAppointments(), clinic.getAppointments()) && Objects.equals(getDescription(), clinic.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus(), getAppointments(), getDescription());
     }
 }

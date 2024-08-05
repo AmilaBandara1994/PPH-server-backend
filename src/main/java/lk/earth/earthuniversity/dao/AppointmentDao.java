@@ -12,7 +12,7 @@ public interface AppointmentDao extends JpaRepository<Appointment,Integer> {
     Appointment findByMyId(@Param("id") Integer id);
 
     @Query(value = "select a  from Appointment a where a.number = :number")
-    Appointment findByNumber(@Param("number") Integer number);
+    Appointment findByNumber(@Param("number") String number);
 
     @Query(value = "select a from Appointment a where a.patient.id = :patientid")
     List<Appointment> findByPatientId(@Param("patientid") Integer patientid);

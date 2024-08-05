@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -65,11 +67,11 @@ public class DoctorController {
             errors = errors+"<br> Existing Number";
 
         if(errors==""){
-            System.out.println(doctor);
+            doctor.setDoregister(new Timestamp( new Date().getTime()));
             doctorDao.save(doctor);
+        } else{
+            errors = "Server Validation Errors : <br> "+errors;
         }
-
-        else errors = "Server Validation Errors : <br> "+errors;
 
         response.put("id",String.valueOf(doctor.getId()));
         response.put("url","/doctors/"+doctor.getId());

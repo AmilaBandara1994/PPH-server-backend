@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -47,11 +48,14 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name = "foreigntrainedcountry_id", referencedColumnName = "id")
     private Country country;
-
+    @Basic
+    @Column(name = "doregister")
+    private Timestamp doregister;
     public Doctor(){}
     public Doctor(Integer id ){
         this.id = id;
     }
+
     public Doctor(Employee employee, Integer id) {
     }
 
@@ -154,5 +158,13 @@ public class Doctor {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry());
+    }
+
+    public Timestamp getDoregister() {
+        return doregister;
+    }
+
+    public void setDoregister(Timestamp doregister) {
+        this.doregister = doregister;
     }
 }

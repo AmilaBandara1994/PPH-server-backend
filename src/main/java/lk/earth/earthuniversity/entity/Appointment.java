@@ -3,6 +3,7 @@ package lk.earth.earthuniversity.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -15,7 +16,8 @@ public class Appointment {
     private Integer id;
     @Basic
     @Column(name = "number")
-    private Integer number;
+//    @Pattern(regexp = "^[A-Z]+-[A-Z]+\\d+$", message = "Invalid Number")
+    private String number;
     @Basic
     @Column(name = "date")
     private Timestamp date;
@@ -40,6 +42,9 @@ public class Appointment {
     @OneToMany(mappedBy = "appointment")
     @JsonIgnore
     private Collection<Patientpayment> patientpayments;
+    @OneToMany(mappedBy = "appointment")
+    @JsonIgnore
+    private Collection<Diagnosis> diagnoses;
 
     public Integer getId() {
         return id;
@@ -49,11 +54,11 @@ public class Appointment {
         this.id = id;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -71,19 +76,6 @@ public class Appointment {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Appointment)) return false;
-        Appointment that = (Appointment) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getNumber(), that.getNumber()) && Objects.equals(getDate(), that.getDate()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getClinic(), that.getClinic()) && Objects.equals(getPatient(), that.getPatient()) && Objects.equals(getAppointmentstatus(), that.getAppointmentstatus()) && Objects.equals(getEmployee(), that.getEmployee()) && Objects.equals(getAppointmenttype(), that.getAppointmenttype());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getNumber(), getDate(), getDescription(), getClinic(), getPatient(), getAppointmentstatus(), getEmployee(), getAppointmenttype());
     }
 
     public Clinic getClinic() {
@@ -132,5 +124,26 @@ public class Appointment {
 
     public void setPatientpayments(Collection<Patientpayment> patientpayments) {
         this.patientpayments = patientpayments;
+    }
+
+    public Collection<Diagnosis> getDiagnoses() {
+        return diagnoses;
+    }
+
+    public void setDiagnoses(Collection<Diagnosis> diagnoses) {
+        this.diagnoses = diagnoses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appointment)) return false;
+        Appointment that = (Appointment) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getNumber(), that.getNumber()) && Objects.equals(getDate(), that.getDate()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getClinic(), that.getClinic()) && Objects.equals(getPatient(), that.getPatient()) && Objects.equals(getAppointmentstatus(), that.getAppointmentstatus()) && Objects.equals(getEmployee(), that.getEmployee()) && Objects.equals(getAppointmenttype(), that.getAppointmenttype()) && Objects.equals(getPatientpayments(), that.getPatientpayments()) && Objects.equals(getDiagnoses(), that.getDiagnoses());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getNumber(), getDate(), getDescription(), getClinic(), getPatient(), getAppointmentstatus(), getEmployee(), getAppointmenttype(), getPatientpayments(), getDiagnoses());
     }
 }

@@ -43,7 +43,7 @@ public class AppointmentController {
         if(appointmentstatusid!=null) appointmentStream = appointmentStream.filter(a -> a.getAppointmentstatus().getId() ==Integer.parseInt(appointmentstatusid));
         if(clinictypeid !=null) appointmentStream = appointmentStream.filter(a -> a.getClinic().getId() ==Integer.parseInt(clinictypeid));
         if(patientid!=null) appointmentStream = appointmentStream.filter(a -> a.getPatient().getId() ==Integer.parseInt(patientid));
-        if(number!=null) appointmentStream = appointmentStream.filter(a -> a.getNumber() ==Integer.parseInt(number));
+        if(number!=null) appointmentStream = appointmentStream.filter(a -> a.getNumber().equals(number));
         if(employeeid!=null) appointmentStream = appointmentStream.filter(a -> a.getEmployee().getId() ==Integer.parseInt(employeeid));
         if(date!=null) appointmentStream = appointmentStream.filter(a -> a.getDate().toString().equals(date));
 
@@ -80,7 +80,7 @@ public class AppointmentController {
         HashMap<String,String> response = new HashMap<>();
         String errors="";
 
-        Integer number =  appointment.getNumber();
+        String number =  appointment.getNumber();
 
         if(appointmentDao.findByNumber(number)!=null)
             errors = errors+"<br> Existing Number";
@@ -88,9 +88,9 @@ public class AppointmentController {
         if(errors == ""){
             appointment.setDate(new Timestamp( new Date().getTime()));
             appointmentDao.save(appointment);
+        }else{
+            errors = "Server Validation Errors : <br> "+errors;
         }
-
-        else errors = "Server Validation Errors : <br> "+errors;
 
         response.put("id",String.valueOf(appointment.getId()));
         response.put("url","/appointments/"+appointment.getId());

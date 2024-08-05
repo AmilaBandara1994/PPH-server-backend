@@ -1,6 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -37,9 +38,11 @@ public class Drug {
     private Integer rop;
     @Basic
     @Column(name = "sprice")
+//    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Invalid Price")
     private BigDecimal sprice;
     @Basic
     @Column(name = "pprice")
+//    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Invalid price")
     private BigDecimal pprice;
     @Basic
     @Column(name = "dointroduced")
