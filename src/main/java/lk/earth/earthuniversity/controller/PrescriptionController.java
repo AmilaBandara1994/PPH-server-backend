@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,22 +27,31 @@ public class PrescriptionController {
     public List<Prescription> getAll(@RequestParam HashMap <String,String> params) {
 
 
-        String severityid = params.get("severityid");
-        String treatmentplanid = params.get("treatmentplanid");
+        String prescriptionstatusid = params.get("prescriptionstatusid");
+//        String date = params.get("date");
+        String clinictypeid = params.get("clinictypeid");
+        String appointmentnumber = params.get("appointmentnumber");
         String patientname = params.get("patientname");
-//        String appointmentnumber = params.get("appointmentnumber");
 
 
         List<Prescription> prescriptions = this.prescriptionDao.findAll();
         if(params.isEmpty()) return prescriptions;
 
         Stream<Prescription> prescriptionstream = prescriptions.stream();
-//
-//
-//        if(severityid!=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getSeverity().getId() ==Integer.parseInt(severityid));
-//        if(treatmentplanid !=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getTreatmentplan().getId() ==Integer.parseInt(treatmentplanid));
+
+        if(prescriptionstatusid!=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getPrescriptionstatus().getId() ==Integer.parseInt(prescriptionstatusid));
+        if(clinictypeid !=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getAppointment().getClinic().getClinictype().getId() ==Integer.parseInt(clinictypeid));
 //        if(patientname!=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getAppointment().getPatient().getName().toLowerCase().contains(patientname.toLowerCase()));
-////        if(appointmentnumber!=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getBrand().getId() ==Integer.parseInt(appointmentnumber));
+        if(appointmentnumber!=null) prescriptionstream = prescriptionstream.filter(obj -> obj.getAppointment().getPatient().getName().contains(appointmentnumber));
+
+//        if(date!=null) prescriptionstream = prescriptionstream.filter(obj -> {
+//
+////            Calendar start = Calendar.getInstance();
+////            start.setTimeInMillis( obj.getDate().getTime() );
+////            return start.after(Timestamp.valueOf(date));
+//
+////            return  new Date(date).after(obj.getDate());
+//        });
 
         return  prescriptionstream.collect(Collectors.toList());
 
