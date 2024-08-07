@@ -115,6 +115,10 @@ public class Employee {
     @JsonIgnore
     private Collection<Investigation> investigations;
 
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Collection<Doctorpayment> doctorpaymentsById;
+
     public Employee(){}
 
     public Employee(Integer id){
@@ -403,5 +407,13 @@ public class Employee {
 
     public void setInvestigations(Collection<Investigation> investigations) {
         this.investigations = investigations;
+    }
+
+    public Collection<Doctorpayment> getDoctorpaymentsById() {
+        return doctorpaymentsById;
+    }
+
+    public void setDoctorpaymentsById(Collection<Doctorpayment> doctorpaymentsById) {
+        this.doctorpaymentsById = doctorpaymentsById;
     }
 }

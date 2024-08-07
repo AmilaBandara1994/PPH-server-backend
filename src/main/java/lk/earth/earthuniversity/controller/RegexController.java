@@ -64,6 +64,12 @@ public class RegexController {
         return RegexProvider.get(new Family());
     }
 
+    @GetMapping(path ="/doctorpayments", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> doctorpayments() {
+        return RegexProvider.get(new Family());
+    }
+
+
 }
 
 

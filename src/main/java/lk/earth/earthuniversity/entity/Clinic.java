@@ -87,9 +87,12 @@ public class Clinic {
     @Basic
     @Column(name = "description")
     private String description;
+    @OneToMany(mappedBy = "clinic")
+    @JsonIgnore
+    private Collection<Doctorpayment> doctorpayments;
+
 
     public Clinic(){}
-
 
     public Clinic(Integer id) {
         this.id = id;
@@ -242,5 +245,13 @@ public class Clinic {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName(), getDate(), getStarttime(), getEndtime(), getPatientcount(), getTotalincome(), getDoctorpayment(), getDopublish(), getClinictype(), getDoctor(), getNurse1(), getNurse2(), getEmployee(), getClinicstatus(), getAppointments(), getDescription());
+    }
+
+    public Collection<Doctorpayment> getDoctorpayments() {
+        return doctorpayments;
+    }
+
+    public void setDoctorpayments(Collection<Doctorpayment> doctorpayments) {
+        this.doctorpayments = doctorpayments;
     }
 }
