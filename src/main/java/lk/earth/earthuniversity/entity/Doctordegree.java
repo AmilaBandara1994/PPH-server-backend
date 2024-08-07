@@ -1,6 +1,8 @@
 package lk.earth.earthuniversity.entity;
 
 
+import lk.earth.earthuniversity.util.RegexPattern;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -13,6 +15,7 @@ public class Doctordegree {
     private Integer id;
 
     @Basic
+    @RegexPattern(reg = "^(19[0-9][1-9]|19[1-9][0-9]|20[0-9]{2}|21[0-4][0-9]|215[0-5])$", msg = "Invalid Enter Valid Year. Ex: 2004,1990")
     @Column(name = "year")
     private String year;
 

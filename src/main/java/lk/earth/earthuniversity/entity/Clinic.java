@@ -23,7 +23,6 @@ public class Clinic {
 
     @Basic
     @Column(name = "name")
-    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid name")
     private String name;
     @Basic
     @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
@@ -41,7 +40,7 @@ public class Clinic {
     private Time endtime;
 
     @Basic
-    @RegexPattern(reg = "^\\d{2}$", msg = "Invalid Patient Count")
+    @RegexPattern(reg = "^\\d{2,3}$", msg = "Invalid Patient Count")
     @Column(name = "patientcount")
     private Integer patientcount;
 
