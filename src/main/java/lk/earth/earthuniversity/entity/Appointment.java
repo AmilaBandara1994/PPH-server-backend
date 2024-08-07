@@ -48,6 +48,12 @@ public class Appointment {
     @OneToMany(mappedBy = "appointment")
     @JsonIgnore
     private Collection<Prescription> prescriptions;
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "appointment_id")
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "appointment")
+    @JsonIgnore
+    private Collection<Investigation> investigations;
 
     public Integer getId() {
         return id;
@@ -156,5 +162,13 @@ public class Appointment {
 
     public void setPrescriptions(Collection<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
+    }
+
+    public Collection<Investigation> getInvestigations() {
+        return investigations;
+    }
+
+    public void setInvestigations(Collection<Investigation> investigations) {
+        this.investigations = investigations;
     }
 }

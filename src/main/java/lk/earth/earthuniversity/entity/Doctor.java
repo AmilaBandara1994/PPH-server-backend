@@ -1,6 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lk.earth.earthuniversity.util.RegexPattern;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -31,6 +32,7 @@ public class Doctor {
     private String description;
     @Basic
     @Column(name = "slmcregno")
+    @RegexPattern(reg = "^\\d{5}$", msg = "Invalid SLMC Register Number")
     private String slmcregno;
     @Basic
     @Column(name = "doslmcregisterd")

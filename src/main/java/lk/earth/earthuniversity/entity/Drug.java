@@ -19,7 +19,8 @@ public class Drug {
     private Integer id;
     @Basic
     @Column(name = "strength")
-    private BigDecimal strength;
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Strength Use 100mg / 500ml")
+    private String strength;
     @Basic
     @Column(name = "code")
     private String code;
@@ -97,11 +98,11 @@ public class Drug {
         this.id = id;
     }
 
-    public BigDecimal getStrength() {
+    public String getStrength() {
         return strength;
     }
 
-    public void setStrength(BigDecimal strength) {
+    public void setStrength(String strength) {
         this.strength = strength;
     }
 
@@ -249,26 +250,26 @@ public class Drug {
         this.drugindications = drugindications;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Drug)) return false;
-        Drug drug = (Drug) o;
-        return Objects.equals(getId(), drug.getId()) && Objects.equals(getStrength(), drug.getStrength()) && Objects.equals(getCode(), drug.getCode()) && Objects.equals(getName(), drug.getName()) && Arrays.equals(getPhoto(), drug.getPhoto()) && Objects.equals(getDescription(), drug.getDescription()) && Objects.equals(getQoh(), drug.getQoh()) && Objects.equals(getRop(), drug.getRop()) && Objects.equals(getSprice(), drug.getSprice()) && Objects.equals(getPprice(), drug.getPprice()) && Objects.equals(getDointroduced(), drug.getDointroduced()) && Objects.equals(getGeneric(), drug.getGeneric()) && Objects.equals(getBrand(), drug.getBrand()) && Objects.equals(getDrugform(), drug.getDrugform()) && Objects.equals(getDrugroute(), drug.getDrugroute()) && Objects.equals(getDrugstatus(), drug.getDrugstatus()) && Objects.equals(getEmployee(), drug.getEmployee()) && Objects.equals(getDrugadverseeffects(), drug.getDrugadverseeffects()) && Objects.equals(getDrugcontraindications(), drug.getDrugcontraindications()) && Objects.equals(getDrugindications(), drug.getDrugindications());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(getId(), getStrength(), getCode(), getName(), getDescription(), getQoh(), getRop(), getSprice(), getPprice(), getDointroduced(), getGeneric(), getBrand(), getDrugform(), getDrugroute(), getDrugstatus(), getEmployee(), getDrugadverseeffects(), getDrugcontraindications(), getDrugindications());
-        result = 31 * result + Arrays.hashCode(getPhoto());
-        return result;
-    }
-
     public Collection<Prescriptiondrug> getPrescriptiondrugs() {
         return prescriptiondrugs;
     }
 
     public void setPrescriptiondrugs(Collection<Prescriptiondrug> prescriptiondrugs) {
         this.prescriptiondrugs = prescriptiondrugs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Drug)) return false;
+        Drug drug = (Drug) o;
+        return Objects.equals(getId(), drug.getId()) && Objects.equals(getStrength(), drug.getStrength()) && Objects.equals(getCode(), drug.getCode()) && Objects.equals(getName(), drug.getName()) && Arrays.equals(getPhoto(), drug.getPhoto()) && Objects.equals(getDescription(), drug.getDescription()) && Objects.equals(getQoh(), drug.getQoh()) && Objects.equals(getRop(), drug.getRop()) && Objects.equals(getSprice(), drug.getSprice()) && Objects.equals(getPprice(), drug.getPprice()) && Objects.equals(getDointroduced(), drug.getDointroduced()) && Objects.equals(getGeneric(), drug.getGeneric()) && Objects.equals(getBrand(), drug.getBrand()) && Objects.equals(getDrugform(), drug.getDrugform()) && Objects.equals(getDrugroute(), drug.getDrugroute()) && Objects.equals(getDrugstatus(), drug.getDrugstatus()) && Objects.equals(getEmployee(), drug.getEmployee()) && Objects.equals(getDrugadverseeffects(), drug.getDrugadverseeffects()) && Objects.equals(getDrugcontraindications(), drug.getDrugcontraindications()) && Objects.equals(getDrugindications(), drug.getDrugindications()) && Objects.equals(getPrescriptiondrugs(), drug.getPrescriptiondrugs());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getId(), getStrength(), getCode(), getName(), getDescription(), getQoh(), getRop(), getSprice(), getPprice(), getDointroduced(), getGeneric(), getBrand(), getDrugform(), getDrugroute(), getDrugstatus(), getEmployee(), getDrugadverseeffects(), getDrugcontraindications(), getDrugindications(), getPrescriptiondrugs());
+        result = 31 * result + Arrays.hashCode(getPhoto());
+        return result;
     }
 }

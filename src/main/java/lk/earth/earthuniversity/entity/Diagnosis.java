@@ -1,5 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
@@ -18,32 +20,30 @@ public class Diagnosis {
     @Basic
     @Column(name = "disease")
     private String disease;
-    @Basic
-    @Column(name = "bpllevel")
-    private String bpllevel;
+
     @Basic
     @Column(name = "bloodpresure")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Blood Pressure  120 BPI or 120BPI")
     private String bloodpresure;
     @Basic
     @Column(name = "heartrate")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String heartrate;
     @Basic
     @Column(name = "temperature")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String temperature;
     @Basic
     @Column(name = "respiratoryreate")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String respiratoryreate;
     @Basic
     @Column(name = "height")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String height;
     @Basic
     @Column(name = "weight")
-    @Pattern(regexp = "^\\d+(\\s+)?[A-Z]+||[A-Z][a-z]$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String weight;
     @Basic
     @Column(name = "examination")
@@ -96,7 +96,6 @@ public class Diagnosis {
     @JoinColumn(name = "diagnosis_id")
     private Collection<Allergydiagnosis> allergydiagnoses;
 
-
     public Integer getId() {
         return id;
     }
@@ -119,14 +118,6 @@ public class Diagnosis {
 
     public void setDisease(String disease) {
         this.disease = disease;
-    }
-
-    public String getBpllevel() {
-        return bpllevel;
-    }
-
-    public void setBpllevel(String bpllevel) {
-        this.bpllevel = bpllevel;
     }
 
     public String getBloodpresure() {
@@ -302,11 +293,11 @@ public class Diagnosis {
         if (this == o) return true;
         if (!(o instanceof Diagnosis)) return false;
         Diagnosis diagnosis = (Diagnosis) o;
-        return Objects.equals(getId(), diagnosis.getId()) && Objects.equals(getOnsetduration(), diagnosis.getOnsetduration()) && Objects.equals(getDisease(), diagnosis.getDisease()) && Objects.equals(getBpllevel(), diagnosis.getBpllevel()) && Objects.equals(getBloodpresure(), diagnosis.getBloodpresure()) && Objects.equals(getHeartrate(), diagnosis.getHeartrate()) && Objects.equals(getTemperature(), diagnosis.getTemperature()) && Objects.equals(getRespiratoryreate(), diagnosis.getRespiratoryreate()) && Objects.equals(getHeight(), diagnosis.getHeight()) && Objects.equals(getWeight(), diagnosis.getWeight()) && Objects.equals(getExamination(), diagnosis.getExamination()) && Objects.equals(getAllergy(), diagnosis.getAllergy()) && Objects.equals(getMedicalhistory(), diagnosis.getMedicalhistory()) && Objects.equals(getSurgicalhistory(), diagnosis.getSurgicalhistory()) && Objects.equals(getDoctornote(), diagnosis.getDoctornote()) && Objects.equals(getDescription(), diagnosis.getDescription()) && Objects.equals(getTime(), diagnosis.getTime()) && Objects.equals(getAppointment(), diagnosis.getAppointment()) && Objects.equals(getSeverity(), diagnosis.getSeverity()) && Objects.equals(getTreatmentplan(), diagnosis.getTreatmentplan()) && Objects.equals(getDiagnosisstatus(), diagnosis.getDiagnosisstatus()) && Objects.equals(getEmployee(), diagnosis.getEmployee()) && Objects.equals(getDiseasediagnoses(), diagnosis.getDiseasediagnoses()) && Objects.equals(getSymptomsdiagnoses(), diagnosis.getSymptomsdiagnoses()) && Objects.equals(getAllergydiagnoses(), diagnosis.getAllergydiagnoses());
+        return Objects.equals(getId(), diagnosis.getId()) && Objects.equals(getOnsetduration(), diagnosis.getOnsetduration()) && Objects.equals(getDisease(), diagnosis.getDisease()) && Objects.equals(getBloodpresure(), diagnosis.getBloodpresure()) && Objects.equals(getHeartrate(), diagnosis.getHeartrate()) && Objects.equals(getTemperature(), diagnosis.getTemperature()) && Objects.equals(getRespiratoryreate(), diagnosis.getRespiratoryreate()) && Objects.equals(getHeight(), diagnosis.getHeight()) && Objects.equals(getWeight(), diagnosis.getWeight()) && Objects.equals(getExamination(), diagnosis.getExamination()) && Objects.equals(getAllergy(), diagnosis.getAllergy()) && Objects.equals(getMedicalhistory(), diagnosis.getMedicalhistory()) && Objects.equals(getSurgicalhistory(), diagnosis.getSurgicalhistory()) && Objects.equals(getDoctornote(), diagnosis.getDoctornote()) && Objects.equals(getDescription(), diagnosis.getDescription()) && Objects.equals(getTime(), diagnosis.getTime()) && Objects.equals(getAppointment(), diagnosis.getAppointment()) && Objects.equals(getSeverity(), diagnosis.getSeverity()) && Objects.equals(getTreatmentplan(), diagnosis.getTreatmentplan()) && Objects.equals(getDiagnosisstatus(), diagnosis.getDiagnosisstatus()) && Objects.equals(getEmployee(), diagnosis.getEmployee()) && Objects.equals(getDiseasediagnoses(), diagnosis.getDiseasediagnoses()) && Objects.equals(getSymptomsdiagnoses(), diagnosis.getSymptomsdiagnoses()) && Objects.equals(getAllergydiagnoses(), diagnosis.getAllergydiagnoses());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOnsetduration(), getDisease(), getBpllevel(), getBloodpresure(), getHeartrate(), getTemperature(), getRespiratoryreate(), getHeight(), getWeight(), getExamination(), getAllergy(), getMedicalhistory(), getSurgicalhistory(), getDoctornote(), getDescription(), getTime(), getAppointment(), getSeverity(), getTreatmentplan(), getDiagnosisstatus(), getEmployee(), getDiseasediagnoses(), getSymptomsdiagnoses(), getAllergydiagnoses());
+        return Objects.hash(getId(), getOnsetduration(), getDisease(), getBloodpresure(), getHeartrate(), getTemperature(), getRespiratoryreate(), getHeight(), getWeight(), getExamination(), getAllergy(), getMedicalhistory(), getSurgicalhistory(), getDoctornote(), getDescription(), getTime(), getAppointment(), getSeverity(), getTreatmentplan(), getDiagnosisstatus(), getEmployee(), getDiseasediagnoses(), getSymptomsdiagnoses(), getAllergydiagnoses());
     }
 }
