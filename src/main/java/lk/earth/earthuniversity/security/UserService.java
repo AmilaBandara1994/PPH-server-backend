@@ -1,6 +1,8 @@
 package lk.earth.earthuniversity.security;
 
+import lk.earth.earthuniversity.dao.ModuleDao;
 import lk.earth.earthuniversity.dao.UserDao;
+import lk.earth.earthuniversity.entity.Module;
 import lk.earth.earthuniversity.entity.Privilege;
 import lk.earth.earthuniversity.entity.User;
 import lk.earth.earthuniversity.entity.Userrole;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,9 @@ public class UserService implements UserDetailsService {
     public UserService(UserDao userdao) {
         this.userdao = userdao;
     }
+
+    @Autowired
+    public ModuleDao moduleDao;
 
     public User getByUsername(String username){
 
@@ -50,10 +56,22 @@ public class UserService implements UserDetailsService {
 
         if (username.equals("AdminEUC")) {
             Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority("gender-list-get"));
-            authorities.add(new SimpleGrantedAuthority("designation-list-get"));
-            authorities.add(new SimpleGrantedAuthority("employeestatus-list-get"));
-            authorities.add(new SimpleGrantedAuthority("employee-select"));
+
+            List<Module> modules = moduleDao.findAll();
+
+            String[] operations = {"insert","select","update","delete"};
+
+            for (Module module : modules){
+                for (String op : operations){
+                    String authority = module.getName().toLowerCase() + "-" + op;
+                    authorities.add(new SimpleGrantedAuthority(authority));
+                }
+            }
+            System.out.println(Arrays.toString(authorities.toArray()));
+//            authorities.add(new SimpleGrantedAuthority("gender-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("designation-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("employeestatus-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("employee-select"));
 
             return org.springframework.security.core.userdetails.User
                     .withUsername("AdminEUC")

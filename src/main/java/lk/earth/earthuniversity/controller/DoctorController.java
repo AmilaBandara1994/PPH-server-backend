@@ -35,7 +35,7 @@ public class DoctorController {
 
         Stream<Doctor> doctorStream = doctors.stream();
 
-        if(clinictypeId != null) doctors = this.doctorDao.findAllDoctorsByCategoryId(Integer.parseInt(clinictypeId));
+//        if(clinictypeId != null) doctors = this.doctorDao.findAllDoctorsByCategoryId(Integer.parseInt(clinictypeId));
 
         if(doctorgradeid!=null) doctorStream = doctorStream.filter(e -> e.getDoctorgrade().getId() ==Integer.parseInt(doctorgradeid));
         if(degreeid!=null) doctorStream = doctorStream.filter(e -> e.getDoctordegrees().stream().filter(de-> de.getDegree().getId() == Integer.parseInt(degreeid)).isParallel());
@@ -64,7 +64,7 @@ public class DoctorController {
         Integer id =  doctor.getEmployee().getId();
 
         if(doctorDao.findDoctorByEmployeeId(id)!=null)
-            errors = errors+"<br> Existing Number";
+            errors = errors+"<br> Existing Employee";
 
         if(errors==""){
             doctor.setDoregister(new Timestamp( new Date().getTime()));
@@ -90,10 +90,10 @@ public class DoctorController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        Doctor doc1 =  doctorDao.findByMyId(doctor.getEmployee().getId());
-
-        if(doc1!=null && doctor.getId()!=doc1.getId())
-            errors = errors+"<br> Existing Employee";
+//        Doctor doc1 =  doctorDao.findByMyId(doctor.getEmployee().getId());
+//
+//        if(doc1!=null && doctor.getId()!=doc1.getId())
+//            errors = errors+"<br> Existing Employee";
 
         if(errors=="") doctorDao.save(doctor);
         else errors = "Server Validation Errors : <br> "+errors;

@@ -20,8 +20,11 @@ public class Doctor {
     @JsonIgnore
     private Collection<Clinic> clinics;
 
-    @OneToMany(mappedBy = "doctor")
-    @JsonIgnore
+//    @OneToMany(mappedBy = "doctor")
+//    @JsonIgnore
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doctor_id")
     private Collection<Doctorclinictype> doctorclinictypes;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "doctor_id")
@@ -149,24 +152,24 @@ public class Doctor {
         this.country = country;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Doctor)) return false;
-        Doctor doctor = (Doctor) o;
-        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry());
-    }
-
     public Timestamp getDoregister() {
         return doregister;
     }
 
     public void setDoregister(Timestamp doregister) {
         this.doregister = doregister;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry()) && Objects.equals(getDoregister(), doctor.getDoregister());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry(), getDoregister());
     }
 }

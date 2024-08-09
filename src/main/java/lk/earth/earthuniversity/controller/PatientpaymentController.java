@@ -79,8 +79,8 @@ public class PatientpaymentController {
 
         Integer number =  patientpayment.getAppointment().getId();
 //
-        if(patientpaymentDao.findByAppointment(number)!= null)
-            errors = errors+"<br> Existing Number";
+//        if(patientpaymentDao.findByAppointment(number)!= null)
+//            errors = errors+"<br> Existing Number";
 
         if(errors == ""){
             patientpayment.setDate(new Timestamp( new Date().getTime()));

@@ -18,7 +18,7 @@ public class Patient {
     private Integer id;
     @Basic
     @Column(name = "name")
-    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid Name")
+    @Pattern(regexp = "^([A-Z][a-z]+\\s?)+$", message = "Invalid Name")
     private String name;
     @Basic
     @Column(name = "dob")
@@ -61,8 +61,9 @@ public class Patient {
     @JoinColumn(name = "relationship_id", referencedColumnName = "id", nullable = false)
     private Relationship relationship;
 
-    @OneToMany(mappedBy = "patient")
-    @JsonIgnore
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "patient_id")
     private Collection<Patientriskfactor> patientriskfactors;
     @OneToMany(mappedBy = "patient")
     @JsonIgnore

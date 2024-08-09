@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/patientriskfactor")
+@RequestMapping(value = "/patientriskfactors")
 public class PatientristfactorController {
 
     @Autowired
@@ -29,7 +29,6 @@ public class PatientristfactorController {
         patientriskfactors = patientriskfactors.stream().map(
                 patientriskfactor -> { Patientriskfactor d = new Patientriskfactor();
                     d.setId(patientriskfactor.getId());
-                    d.setPatient(patientriskfactor.getPatient());
                     d.setRiskfactor(patientriskfactor.getRiskfactor());
                     return d; }
         ).collect(Collectors.toList());

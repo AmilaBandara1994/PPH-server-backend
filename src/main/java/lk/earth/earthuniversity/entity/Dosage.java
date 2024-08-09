@@ -3,7 +3,9 @@ package lk.earth.earthuniversity.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Dosage {
@@ -17,6 +19,9 @@ public class Dosage {
     @OneToMany(mappedBy = "dosage")
     @JsonIgnore
     private Collection<Prescriptiondrug> prescriptiondrugs;
+    @Basic
+    @Column(name = "value")
+    private BigDecimal value;
 
     public Integer getId() {
         return id;
@@ -34,31 +39,32 @@ public class Dosage {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Dosage dosage = (Dosage) o;
-
-        if (id != null ? !id.equals(dosage.id) : dosage.id != null) return false;
-        if (name != null ? !name.equals(dosage.name) : dosage.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
-
     public Collection<Prescriptiondrug> getPrescriptiondrugs() {
         return prescriptiondrugs;
     }
 
     public void setPrescriptiondrugs(Collection<Prescriptiondrug> prescriptiondrugs) {
         this.prescriptiondrugs = prescriptiondrugs;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dosage)) return false;
+        Dosage dosage = (Dosage) o;
+        return Objects.equals(getId(), dosage.getId()) && Objects.equals(getName(), dosage.getName()) && Objects.equals(getPrescriptiondrugs(), dosage.getPrescriptiondrugs()) && Objects.equals(getValue(), dosage.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getPrescriptiondrugs(), getValue());
     }
 }

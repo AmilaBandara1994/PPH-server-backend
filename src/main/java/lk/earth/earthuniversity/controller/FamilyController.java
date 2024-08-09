@@ -2,16 +2,20 @@ package lk.earth.earthuniversity.controller;
 
 import lk.earth.earthuniversity.dao.EmployeeDao;
 import lk.earth.earthuniversity.dao.FamilyDao;
+import lk.earth.earthuniversity.entity.Appointment;
+import lk.earth.earthuniversity.entity.Clinic;
 import lk.earth.earthuniversity.entity.Employee;
 import lk.earth.earthuniversity.entity.Family;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,7 +53,12 @@ public class FamilyController {
         return familyStream.collect(Collectors.toList());
 
     }
-
+    @GetMapping(path ="/details/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public Family get(@PathVariable Integer id) {
+        Family family = this.familyDao.findByMyId(id);
+        return family;
+    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Employee-Insert')")

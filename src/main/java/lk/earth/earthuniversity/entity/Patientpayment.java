@@ -1,6 +1,5 @@
 package lk.earth.earthuniversity.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -16,7 +15,7 @@ public class Patientpayment {
     private Integer id;
     @Basic
     @Column(name = "amount")
-    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Invalid Amount")
+//    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Invalid Amount")
     private BigDecimal amount;
 
     @Basic

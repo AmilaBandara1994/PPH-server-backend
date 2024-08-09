@@ -1,6 +1,8 @@
 package lk.earth.earthuniversity.controller;
 
+import lk.earth.earthuniversity.dao.ModuleDao;
 import lk.earth.earthuniversity.dao.UserDao;
+import lk.earth.earthuniversity.entity.Module;
 import lk.earth.earthuniversity.entity.Privilege;
 import lk.earth.earthuniversity.entity.User;
 import lk.earth.earthuniversity.entity.Userrole;
@@ -9,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin
@@ -20,12 +21,15 @@ public class UserAuthorityController {
     @Autowired
     private UserDao userdao;
 
+    @Autowired
+    private ModuleDao moduleDao;
+
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.CREATED)
     public List<String> getUserAuthoritiesByUsername(@PathVariable String username) {
+
         User user = userdao.findByUsername(username);
         List<String> authorities = new ArrayList<>();
-
         if (user != null){
             List<Userrole> userroles = (List<Userrole>) user.getUserroles();
 
@@ -37,31 +41,18 @@ public class UserAuthorityController {
                 }
             }
         }else{
-            authorities = Arrays.asList(
-                    "user-select","user-delete","user-update","user-insert",
-                    "privilege-select","privilege-delete","privilege-update","privilege-insert",
-                    "employee-select","employee-delete","employee-update","employee-insert",
-                    "operations-select","operations-delete","operations-update","operations-insert",
 
-                    "program-select","program-delete","program-update","program-insert",
-                    "course-select","course-delete","course-update","course-insert",
-                    "Batch-select","Batch-delete","Batch-update","Batch-insert",
-                    "Payment Schedule-select","Payment Schedule-delete","Payment Schedule-update","Payment Schedule-insert",
-                    "Course Materiale-select","Course Material-delete","Course Material-update","Course Material-insert",
+            List<Module> modules = moduleDao.findAll();
 
-                    "Mat. Distribution-select","Mat. Distribution-delete","Mat. Distribution-update","Mat. Distribution-insert",
-                    "Payments-select","Payments-delete","Payments-update","Payments-insert",
-                    "student-select","student-delete","student-update","student-insert",
-                    "Batch Registration-select","Batch Registration-delete","Batch Registration-update","Batch Registration-insert",
+            String[] operations = {"insert","select","update","delete"};
 
-                    "Class Schedule-select","Class Schedule-delete","Class Schedule-update","Class Schedule-insert",
-                    "Attendance-select","Attendance-delete","Attendance-update","Attendance-insert",
-                    "Progress Review-select","Progress Review-delete","Progress Review-update","Progress Review-insert",
-
-                    "clinic-select","clinic-delete","clinic-update","clinic-insert"
-            );
+            for (Module module : modules){
+                for (String op : operations){
+                    String authority = module.getName().toLowerCase() + "-" + op;
+                    authorities.add(authority);
+                }
+            }
         }
-
         return authorities;
     }
 }

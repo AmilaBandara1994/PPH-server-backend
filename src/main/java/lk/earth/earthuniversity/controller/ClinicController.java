@@ -3,6 +3,8 @@ package lk.earth.earthuniversity.controller;
 import lk.earth.earthuniversity.dao.ClinicDao;
 import lk.earth.earthuniversity.entity.Clinic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,31 +27,33 @@ public class ClinicController {
     private ClinicDao clinicDao;
 
 
-
     @GetMapping("/scheduled")
     public List<Clinic> getByClinictype(@RequestParam HashMap<String, String> params) {
 
         Date today = new Date();
-        List<Clinic>  clinics = this.clinicDao.getAllUpCommingClinics();
+        List<Clinic> clinics = this.clinicDao.getAllUpCommingClinics();
 
-        if(params.isEmpty()) return clinics;
+        if (params.isEmpty()) return clinics;
 
         String clinictypeid = params.get("clinictypeid");
         String clinicstatusid = params.get("clinicstatusid");
 
         Stream<Clinic> clinicStream = clinics.stream();
 
-        if(clinictypeid  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getId() == Integer.parseInt(clinictypeid));
-        if(clinicstatusid  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getId() == Integer.parseInt(clinicstatusid));
+        if (clinictypeid != null)
+            clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getId() == Integer.parseInt(clinictypeid));
+        if (clinicstatusid != null)
+            clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getId() == Integer.parseInt(clinicstatusid));
 
-        return  clinicStream.collect(Collectors.toList());
+        return clinicStream.collect(Collectors.toList());
     }
+
     @GetMapping(produces = "application/json")
     public List<Clinic> get(@RequestParam HashMap<String, String> params) {
 
-        List<Clinic>  clinics = this.clinicDao.findAll();
+        List<Clinic> clinics = this.clinicDao.findAll();
 
-        if(params.isEmpty()) return clinics;
+        if (params.isEmpty()) return clinics;
 
         String clinictype = params.get("clinictype");
         String doctorname = params.get("doctorname");
@@ -57,11 +61,20 @@ public class ClinicController {
 
         Stream<Clinic> clinicStream = clinics.stream();
 
-        if(clinictype  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getName().contains(clinictype));
-        if(doctorname  != null) clinicStream = clinicStream.filter(clinic -> clinic.getDoctor().getEmployee().getFullname().contains(doctorname));
-        if(clinicstatus  != null) clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getName().contains(clinicstatus));
+        if (clinictype != null)
+            clinicStream = clinicStream.filter(clinic -> clinic.getClinictype().getName().contains(clinictype));
+        if (doctorname != null)
+            clinicStream = clinicStream.filter(clinic -> clinic.getDoctor().getEmployee().getFullname().contains(doctorname));
+        if (clinicstatus != null)
+            clinicStream = clinicStream.filter(clinic -> clinic.getClinicstatus().getName().contains(clinicstatus));
 
-        return  clinicStream.collect(Collectors.toList());
+        return clinicStream.collect(Collectors.toList());
+    }
+
+    @GetMapping("/latest")
+    public List<Clinic> getlatest() {
+        Pageable pageable = PageRequest.of(0, 3);
+        return this.clinicDao.getLatest(pageable);
     }
 
     @GetMapping("/{id}")
@@ -71,18 +84,13 @@ public class ClinicController {
     }
 
 
-
-
-
-
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Employee-Insert')")
-    public HashMap<String,String> add(@RequestBody Clinic clinic){
+    public HashMap<String, String> add(@RequestBody Clinic clinic) {
 
-        HashMap<String,String> responce = new HashMap<>();
-        String errors="";
+        HashMap<String, String> responce = new HashMap<>();
+        String errors = "";
 
 //        if(clinicDao.findById(clinic.getId())!=null)
 //            errors = errors+"<br> Existing Clinic";
@@ -91,16 +99,16 @@ public class ClinicController {
 
         System.out.println(clinic);
 
-        if(errors=="") {
-            clinic.setDopublish(new Timestamp( new Date().getTime()));
+        if (errors == "") {
+            clinic.setDopublish(new Timestamp(new Date().getTime()));
             clinicDao.save(clinic);
         } else {
-            errors = "Server Validation Errors : <br> "+errors;
+            errors = "Server Validation Errors : <br> " + errors;
         }
 
-        responce.put("id",String.valueOf(clinic.getId()));
-        responce.put("url","/clinics/"+clinic.getId());
-        responce.put("errors",errors);
+        responce.put("id", String.valueOf(clinic.getId()));
+        responce.put("url", "/clinics/" + clinic.getId());
+        responce.put("errors", errors);
 
         return responce;
     }
@@ -108,10 +116,10 @@ public class ClinicController {
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Employee-Update')")
-    public HashMap<String,String> update(@RequestBody Clinic clinic){
+    public HashMap<String, String> update(@RequestBody Clinic clinic) {
 
-        HashMap<String,String> responce = new HashMap<>();
-        String errors="";
+        HashMap<String, String> responce = new HashMap<>();
+        String errors = "";
 
 //        Optional<Clinic> clinic1 = clinicDao.findById(clinic.getId());
 //        Employee emp2 = employeedao.findByNic(employee.getNic());
@@ -121,12 +129,12 @@ public class ClinicController {
 //        if(emp2!=null && employee.getId()!=emp2.getId())
 //            errors = errors+"<br> Existing NIC";
 
-        if(errors=="") clinicDao.save(clinic);
-        else errors = "Server Validation Errors : <br> "+errors;
+        if (errors == "") clinicDao.save(clinic);
+        else errors = "Server Validation Errors : <br> " + errors;
 
-        responce.put("id",String.valueOf(clinic.getId()));
-        responce.put("url","/clinic/"+clinic.getId());
-        responce.put("errors",errors);
+        responce.put("id", String.valueOf(clinic.getId()));
+        responce.put("url", "/clinic/" + clinic.getId());
+        responce.put("errors", errors);
 
         return responce;
     }
@@ -134,31 +142,27 @@ public class ClinicController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public HashMap<String,String> delete(@PathVariable Integer id){
+    public HashMap<String, String> delete(@PathVariable Integer id) {
 
         System.out.println(id);
 
-        HashMap<String,String> responce = new HashMap<>();
-        String errors="";
+        HashMap<String, String> responce = new HashMap<>();
+        String errors = "";
 
         Clinic clinic = clinicDao.findByMyId(id);
 
-        if(clinic==null)
-            errors = errors+"<br> Clinic  Does Not Existed";
+        if (clinic == null)
+            errors = errors + "<br> Clinic  Does Not Existed";
 
-        if(errors=="") clinicDao.delete(clinic);
-        else errors = "Server Validation Errors : <br> "+errors;
+        if (errors == "") clinicDao.delete(clinic);
+        else errors = "Server Validation Errors : <br> " + errors;
 
-        responce.put("id",String.valueOf(id));
-        responce.put("url","/clinic/"+id);
-        responce.put("errors",errors);
+        responce.put("id", String.valueOf(id));
+        responce.put("url", "/clinic/" + id);
+        responce.put("errors", errors);
 
         return responce;
     }
-
-
-
-
 
 
 //    @GetMapping(path ="/list",produces = "application/json")
