@@ -21,7 +21,7 @@ public class Family {
     private Timestamp doregister;
     @Basic
     @Column(name = "name")
-    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid Calligname")
+//    @Pattern(regexp = "^([A-Z][a-z]+)$", message = "Invalid Calligname")
     private String name;
     @Basic
     @Column(name = "address")

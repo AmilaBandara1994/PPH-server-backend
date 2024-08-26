@@ -15,9 +15,9 @@ public class Riskfactor {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "riskfactor")
-    @JsonIgnore
-    private Collection<Patientriskfactor> patientriskfactors;
+//    @OneToMany(mappedBy = "riskfactor")
+//    @JsonIgnore
+//    private Collection<Patientriskfactor> patientriskfactors;
 
     public Integer getId() {
         return id;

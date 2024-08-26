@@ -60,6 +60,10 @@ public class EmployeeController {
         return employees;
 
     }
+    @GetMapping(path ="/doctors",produces = "application/json")
+    public List<Employee> getallDoctor() {
+        return this.employeedao.findAllDoctors();
+    }
 
     @GetMapping(path ="/countbydesination/{id}",produces = "application/json")
     public Long getcountbydesignation(@PathVariable Integer id) {

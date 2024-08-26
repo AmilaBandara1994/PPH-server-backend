@@ -1,5 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -17,10 +19,12 @@ public class Prescriptiondrug {
     private String description;
     @Basic
     @Column(name = "days")
-    private Integer days;
-//    @ManyToOne
-//    @JoinColumn(name = "prescription_id", referencedColumnName = "id", nullable = false)
-//    private Prescription prescription;
+    private String days;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "prescription_id", referencedColumnName = "id", nullable = false)
+    private Prescription prescription;
     @ManyToOne
     @JoinColumn(name = "drug_id", referencedColumnName = "id", nullable = false)
     private Drug drug;
@@ -33,7 +37,6 @@ public class Prescriptiondrug {
     @ManyToOne
     @JoinColumn(name = "dosage_id", referencedColumnName = "id", nullable = false)
     private Dosage dosage;
-
 
     public Integer getId() {
         return id;
@@ -59,12 +62,20 @@ public class Prescriptiondrug {
         this.description = description;
     }
 
-    public Integer getDays() {
+    public String getDays() {
         return days;
     }
 
-    public void setDays(Integer days) {
+    public void setDays(String days) {
         this.days = days;
+    }
+
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
 
     public Drug getDrug() {
@@ -104,11 +115,11 @@ public class Prescriptiondrug {
         if (this == o) return true;
         if (!(o instanceof Prescriptiondrug)) return false;
         Prescriptiondrug that = (Prescriptiondrug) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getDose(), that.getDose()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getDays(), that.getDays()) && Objects.equals(getDrug(), that.getDrug()) && Objects.equals(getDrugschedule(), that.getDrugschedule()) && Objects.equals(getMeal(), that.getMeal()) && Objects.equals(getDosage(), that.getDosage());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getDose(), that.getDose()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getDays(), that.getDays()) && Objects.equals(getPrescription(), that.getPrescription()) && Objects.equals(getDrug(), that.getDrug()) && Objects.equals(getDrugschedule(), that.getDrugschedule()) && Objects.equals(getMeal(), that.getMeal()) && Objects.equals(getDosage(), that.getDosage());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDose(), getDescription(), getDays(), getDrug(), getDrugschedule(), getMeal(), getDosage());
+        return Objects.hash(getId(), getDose(), getDescription(), getDays(), getPrescription(), getDrug(), getDrugschedule(), getMeal(), getDosage());
     }
 }

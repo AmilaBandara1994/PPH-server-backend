@@ -65,6 +65,10 @@ public class Patient {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "patient_id")
     private Collection<Patientriskfactor> patientriskfactors;
+
+//    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
+////    @JoinColumn(name = "patient_id")
+//    private Collection<Patientriskfactor> patientriskfactors;
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
     private Collection<Appointment> appointments;

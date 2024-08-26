@@ -1,11 +1,15 @@
 package lk.earth.earthuniversity.controller;
 
+import lk.earth.earthuniversity.dao.ClinicDao;
 import lk.earth.earthuniversity.dao.DoctorpaymentDao;
+import lk.earth.earthuniversity.entity.Clinic;
 import lk.earth.earthuniversity.entity.Doctorpayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +24,9 @@ public class DoctorpaymentController {
 
     @Autowired
     private DoctorpaymentDao doctorpaymentDao;
+
+    @Autowired
+    private ClinicDao clinicDao;
 
     @GetMapping(value = "/list", produces = "application/json")
     public List<Doctorpayment> getAll(@RequestParam HashMap <String,String> params) {
@@ -46,7 +53,7 @@ public class DoctorpaymentController {
 //        if(number!=null) doctorpaymentStream = doctorpaymentStream.filter(a -> a.getNumber().equals(number));
 //        if(employeeid!=null) doctorpaymentStream = doctorpaymentStream.filter(a -> a.getEmployee().getId() ==Integer.parseInt(employeeid));
 //        if(date!=null) doctorpaymentStream = doctorpaymentStream.filter(a -> a.getDate().toString().equals(date));
-
+//
 
         return  doctorpaymentStream.collect(Collectors.toList());
 
@@ -79,19 +86,42 @@ public class DoctorpaymentController {
 
         HashMap<String,String> response = new HashMap<>();
         String errors="";
-//
-//        String number =  doctorpayment.getNumber();
-//
-//        if(doctorpaymentDao.findByNumber(number)!=null)
-//            errors = errors+"<br> Existing Number";
 
+        Clinic cl1= doctorpayment.getClinic();
+
+
+        BigDecimal tvalue = cl1.getTotalincome();
+//      BigDecimal income = dpay.getClinic().getTotalincome(); // Assuming getTotalincome() returns BigDecimal
+        BigDecimal percentage = new BigDecimal("20").divide(new BigDecimal("100"), MathContext.DECIMAL128); // 20%
+        BigDecimal amountToAdd = tvalue.multiply(percentage);
+
+
+        doctorpayment.setTotal(amountToAdd);
+
+
+            // Calculate the 20% of income
+//            dpay.setTotal(dpay.getTotal().add(amountToAdd)); // Add it to the existing total
+
+
+
+
+
+//            Clinic cl1= doctorpayment.getClinic();
+//            int value = cl1.getTotalincome().intValue();
+//            int total = value * 20/100;
+//            doctorpayment.setTotal( BigDecimal.valueOf(total));
+//            cl1.setTotalincome(BigDecimal.valueOf(cl1.getTotalincome().intValue() - total));
+
+        if(doctorpayment.getDoctorpaymentstatus().getName().equals("Paid")){
+//            cl1.setTotalincome(BigDecimal.valueOf(cl1.getTotalincome().intValue() - total));
+            clinicDao.save(cl1);
+        }
         if(errors == ""){
             doctorpayment.setDate(new Timestamp( new Date().getTime()));
             doctorpaymentDao.save(doctorpayment);
         }else{
             errors = "Server Validation Errors : <br> "+errors;
         }
-
         response.put("id",String.valueOf(doctorpayment.getId()));
         response.put("url","/doctorpayments/"+doctorpayment.getId());
         response.put("errors",errors);
@@ -109,10 +139,24 @@ public class DoctorpaymentController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-//        Doctorpayment appoint =  doctorpaymentDao.findByNumber(doctorpayment.getNumber());
-//
-//        if(appoint!=null && doctorpayment.getId()!=appoint.getId())
-//            errors = errors+"<br> Existing Doctorpayment";
+//        if(doctorpayment.getDoctorpaymentstatus().getName().equals("Calculated")){
+            Clinic cl1= doctorpayment.getClinic();
+            int value = cl1.getTotalincome().intValue();
+            int total = (value * 20)/100;
+            doctorpayment.setTotal(BigDecimal.valueOf(total));
+//            cl1.setTotalincome(BigDecimal.valueOf(cl1.getTotalincome().intValue() - total));
+//        }
+
+            if(doctorpayment.getDoctorpaymentstatus().getName().equals("Paid")){
+
+//            Clinic cl1= doctorpayment.getClinic();
+//            int value = cl1.getTotalincome().intValue();
+//            int total = value * 20/100;
+////            doctorpayment.setTotal( value * 20/100);
+                cl1.setTotalincome(BigDecimal.valueOf(cl1.getTotalincome().intValue() - total));
+                clinicDao.save(cl1);
+            }
+
 
         if(errors=="") doctorpaymentDao.save(doctorpayment);
         else errors = "Server Validation Errors : <br> "+errors;

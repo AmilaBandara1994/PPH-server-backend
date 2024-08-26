@@ -38,6 +38,7 @@ public class DoctorController {
 //        if(clinictypeId != null) doctors = this.doctorDao.findAllDoctorsByCategoryId(Integer.parseInt(clinictypeId));
 
         if(doctorgradeid!=null) doctorStream = doctorStream.filter(e -> e.getDoctorgrade().getId() ==Integer.parseInt(doctorgradeid));
+        if(clinictypeId!=null) doctorStream = doctorStream.filter(e -> e.getDoctorgrade().getId() ==Integer.parseInt(clinictypeId));
         if(degreeid!=null) doctorStream = doctorStream.filter(e -> e.getDoctordegrees().stream().filter(de-> de.getDegree().getId() == Integer.parseInt(degreeid)).isParallel());
 
 
@@ -50,6 +51,12 @@ public class DoctorController {
     public Doctor get(@PathVariable Integer id) {
         Doctor doctor = this.doctorDao.findByMyId(id);
         return doctor;
+    }
+    @GetMapping(path ="/doctorclinic/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Doctor> getByClinicType(@PathVariable Integer id) {
+                List<Doctor> doctor = this.doctorDao.doctorByClinicType(id);
+                return doctor;
     }
 
 

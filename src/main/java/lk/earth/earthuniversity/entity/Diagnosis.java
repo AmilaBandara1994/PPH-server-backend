@@ -39,11 +39,11 @@ public class Diagnosis {
     private String respiratoryreate;
     @Basic
     @Column(name = "height")
-    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([.]\\d{2}\\s)?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String height;
     @Basic
     @Column(name = "weight")
-    @Pattern(regexp = "^\\d+\\s?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
+    @Pattern(regexp = "^\\d+\\s?([.]\\d{2}\\s)?([A-Z]+?|[a-z]+?)$", message = "Invalid Number")
     private String weight;
     @Basic
     @Column(name = "examination")

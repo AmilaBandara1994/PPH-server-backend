@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.earth.earthuniversity.util.RegexPattern;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -20,12 +21,15 @@ public class Doctor {
     @JsonIgnore
     private Collection<Clinic> clinics;
 
-//    @OneToMany(mappedBy = "doctor")
+//    @OneToMany()
 //    @JsonIgnore
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "doctor_id")
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Doctorclinictype> doctorclinictypes;
+
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "doctor_id")
+//    private Collection<Doctorclinictype> doctorclinictypes;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "doctor_id")
     private Collection<Doctordegree> doctordegrees;
@@ -43,7 +47,10 @@ public class Doctor {
     @Basic
     @Column(name = "foreigntraining")
     private String foreigntraining;
-
+    @Basic
+    @Column(name = "perpatientrate")
+//    @RegexPattern(reg = "^\\d{5}$", msg = "")
+    private BigDecimal perpatientrate;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
@@ -128,6 +135,14 @@ public class Doctor {
         this.foreigntraining = foreigntraining;
     }
 
+    public BigDecimal getPerpatientrate() {
+        return perpatientrate;
+    }
+
+    public void setPerpatientrate(BigDecimal perpatientrate) {
+        this.perpatientrate = perpatientrate;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -165,11 +180,11 @@ public class Doctor {
         if (this == o) return true;
         if (!(o instanceof Doctor)) return false;
         Doctor doctor = (Doctor) o;
-        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry()) && Objects.equals(getDoregister(), doctor.getDoregister());
+        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getClinics(), doctor.getClinics()) && Objects.equals(getDoctorclinictypes(), doctor.getDoctorclinictypes()) && Objects.equals(getDoctordegrees(), doctor.getDoctordegrees()) && Objects.equals(getDescription(), doctor.getDescription()) && Objects.equals(getSlmcregno(), doctor.getSlmcregno()) && Objects.equals(getDoslmcregisterd(), doctor.getDoslmcregisterd()) && Objects.equals(getForeigntraining(), doctor.getForeigntraining()) && Objects.equals(getPerpatientrate(), doctor.getPerpatientrate()) && Objects.equals(getEmployee(), doctor.getEmployee()) && Objects.equals(getDoctorgrade(), doctor.getDoctorgrade()) && Objects.equals(getCountry(), doctor.getCountry()) && Objects.equals(getDoregister(), doctor.getDoregister());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getEmployee(), getDoctorgrade(), getCountry(), getDoregister());
+        return Objects.hash(getId(), getClinics(), getDoctorclinictypes(), getDoctordegrees(), getDescription(), getSlmcregno(), getDoslmcregisterd(), getForeigntraining(), getPerpatientrate(), getEmployee(), getDoctorgrade(), getCountry(), getDoregister());
     }
 }

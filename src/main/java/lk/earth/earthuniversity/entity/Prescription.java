@@ -18,8 +18,7 @@ public class Prescription {
     @JoinColumn(name = "appointment_id", referencedColumnName = "id", nullable = false)
     private Appointment appointment;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "prescription_id")
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Prescriptiondrug> prescriptiondrugs;
     @ManyToOne
     @JoinColumn(name = "prescriptionstatus_id", referencedColumnName = "id", nullable = false)

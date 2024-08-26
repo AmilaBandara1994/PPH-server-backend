@@ -1,16 +1,20 @@
 package lk.earth.earthuniversity.controller;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import lk.earth.earthuniversity.dao.*;
 import lk.earth.earthuniversity.dao.PatientpaymentDao;
-import lk.earth.earthuniversity.dao.PatientpaymentDao;
-import lk.earth.earthuniversity.entity.Patientpayment;
+import lk.earth.earthuniversity.entity.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +25,22 @@ public class PatientpaymentController {
 
     @Autowired
     private PatientpaymentDao patientpaymentDao;
+
+    @Autowired
+    private  ClinicDao clinicDao;
+
+    @Autowired
+    private  DrugDao drugDao;
+
+    @Autowired
+    private PrescriptionDao prescriptionDao;
+
+    @Autowired
+    private PrescriptionstatusDao prescriptionstatusDao;
+
+    @Autowired
+    private InvestigationDao investigationDao;
+
 
     @GetMapping(value = "/list", produces = "application/json")
     public List<Patientpayment> getAll(@RequestParam HashMap <String,String> params) {
@@ -78,7 +98,83 @@ public class PatientpaymentController {
         String errors="";
 
         Integer number =  patientpayment.getAppointment().getId();
+
+
+        if(patientpayment.getPaymentstatus().getName().equals("Completed")){
+            Clinic  cl1= patientpayment.getAppointment().getClinic();
+            BigDecimal tvalue = patientpayment.getAppointment().getClinic().getTotalincome();
+
+//            List<Prescription> prescriptionList = prescriptionDao.findAllPresByAppoinment(patientpayment.getAppointment().getId());
+            Prescription prescription = prescriptionDao.findAllPresByAppoinment(patientpayment.getAppointment().getId());
+            Investigation investigation = investigationDao.findByappointNumber(patientpayment.getAppointment().getId());
+
+//            prescriptionList.forEach(prescription -> {
+                prescription.getPrescriptiondrugs().forEach(drugs -> {
+                    BigDecimal dosage = drugs.getDosage().getValue();           // Assuming getValue() returns BigDecimal
+                    BigDecimal schedule = new BigDecimal(drugs.getDrugschedule().getValue()); // Convert to BigDecimal
+                    BigDecimal price = drugs.getDrug().getSprice();             // Assuming getSprice() returns BigDecimal
+                    BigDecimal total = dosage.multiply(schedule).multiply(price);
+                    patientpayment.setAmount(total);
+
+
+                    cl1.setTotalincome(cl1.getTotalincome().add(total));
+
+//                    cl1.getDoctor().getClinics().forEach(clinic -> {
+//                        clinic.getDoctorpayments().forEach(dpay -> {
+//                            BigDecimal income = clinic.getTotalincome(); // Assuming getTotalincome() returns BigDecimal
+//                            BigDecimal percentage = new BigDecimal("20").divide(new BigDecimal("100")); // 20%
 //
+//                            BigDecimal amountToAdd = income.multiply(percentage); // Calculate the 20% of income
+//                            dpay.setTotal(dpay.getTotal().add(amountToAdd)); // Add it to the existing total
+//                        });
+//                    });
+
+                    clinicDao.save(cl1);
+                });
+//            });
+//            investigation.getReporttype()
+
+
+            int val = cl1.getTotalincome().intValue() + patientpayment.getAmount().intValue() ;
+            cl1.setTotalincome(BigDecimal.valueOf(val));
+            clinicDao.save(cl1);
+
+
+//            prescriptionList.forEach(pres ->{
+                if(prescription.getPrescriptionstatus().equals("Prescribed")){
+
+                prescription.getPrescriptiondrugs().forEach(presdrug -> {
+                    presdrug.getDrug().setQoh(presdrug.getDrug().getQoh() - (presdrug.getDosage().getValue().intValue() * presdrug.getDrugschedule().getValue()));
+//                    Drug olddrugs = presdrug.getDrug();
+//                    BeanUtils.copyProperties(olddrugs, presdrug.getDrug(),"strength");
+                    drugDao.save(presdrug.getDrug());
+                });
+                Prescriptionstatus prestat = prescriptionstatusDao.findByMyId(2);
+                prescription.setPrescriptionstatus( prestat);
+
+
+                }
+
+//                if(pres.getPrescriptionstatus().equals("Prescribed")){
+//
+//                    pres.getPrescriptiondrugs().forEach(presdrug -> {
+//                        presdrug.getDrug().setQoh(presdrug.getDrug().getQoh() - (presdrug.getDosage().getValue().intValue() * presdrug.getDrugschedule().getValue()));
+////                    Drug olddrugs = presdrug.getDrug();
+////                    BeanUtils.copyProperties(olddrugs, presdrug.getDrug(),"strength");
+//                        drugDao.save(presdrug.getDrug());
+//                    });
+//                    Prescriptionstatus prestat = prescriptionstatusDao.findByMyId(2);
+//                    pres.setPrescriptionstatus( prestat);
+//
+//
+//                }
+//            } );
+//            List<Prescriptiondrug> precdrug = patientpaymentDao.getPrescriptionDrugsByappoId(patientpayment.getAppointment().getId());
+//            precdrug.forEach(pred -> {
+//
+//            });
+            prescriptionDao.save(prescription);
+        }
 //        if(patientpaymentDao.findByAppointment(number)!= null)
 //            errors = errors+"<br> Existing Number";
 
@@ -108,6 +204,19 @@ public class PatientpaymentController {
 
         Patientpayment appoint =  patientpaymentDao.findByDatetime(patientpayment.getDate());
 
+        if(patientpayment.getPaymentstatus().getName().equals("Completed")){
+            Clinic  cl1= patientpayment.getAppointment().getClinic();
+            int val = cl1.getTotalincome().intValue() + patientpayment.getAmount().intValue() ;
+            cl1.setTotalincome(BigDecimal.valueOf(val));
+
+            clinicDao.save(cl1);
+
+            List<Prescriptiondrug> precdrug =   patientpaymentDao.getPrescriptionDrugsByappoId(patientpayment.getAppointment().getId());
+            precdrug.forEach(pred -> {
+                pred.getDrug().setQoh(pred.getDrug().getQoh() - (pred.getDosage().getValue().intValue() * pred.getDrugschedule().getValue()));
+                drugDao.save(pred.getDrug());
+            });
+        }
         if(appoint!=null && patientpayment.getId()!=appoint.getId())
             errors = errors+"<br> Existing Patientpayment";
 

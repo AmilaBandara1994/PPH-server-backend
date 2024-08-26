@@ -2,9 +2,7 @@ package lk.earth.earthuniversity.controller;
 
 import lk.earth.earthuniversity.dao.EmployeeDao;
 import lk.earth.earthuniversity.dao.PatientDao;
-import lk.earth.earthuniversity.entity.Doctor;
-import lk.earth.earthuniversity.entity.Employee;
-import lk.earth.earthuniversity.entity.Patient;
+import lk.earth.earthuniversity.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -81,6 +79,7 @@ public class PatientController {
 
 
         if (errors == "") {
+//            for(Userrole u : user.getUserroles()) u.setUser(user);
             patient.setDoregister(new Timestamp( new Date().getTime()));
             patientDao.save(patient);
         } else {

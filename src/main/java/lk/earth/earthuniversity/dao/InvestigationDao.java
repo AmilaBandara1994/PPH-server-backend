@@ -15,6 +15,10 @@ public interface InvestigationDao extends JpaRepository<Investigation,Integer> {
     @Query(value = "select i  from Investigation i where i.name = :name")
     Investigation findByName(@Param("name") String name);
 
+    @Query(value = "select i  from Investigation i where i.appointment.id = :id")
+    Investigation findByappointNumber(@Param("id") Integer id);
+
+
 //    @Query(value = "select a from Appointment a where a.patient.id = :patientid")
 //    List<Appointment> findByPatientId(@Param("patientid") Integer patientid);
 //

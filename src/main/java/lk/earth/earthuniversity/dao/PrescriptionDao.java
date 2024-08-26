@@ -6,9 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface PrescriptionDao extends JpaRepository<Prescription,Integer> {
     @Query(value = "select a  from Prescription a where a.id = :id")
     Prescription findByMyId(@Param("id") Integer id);
+
+    @Query("SELECT p from Prescription p where p.appointment.id = :id")
+    Prescription findAllPresByAppoinment(@Param("id") Integer id);
+//    List<Prescription> findAllPresByAppoinment(@Param("id") Integer id);
 
 //    @Query(value = "select a  from Diagnosis a where a.code =:getcode")
 //    Diagnosis findByDiagnosisCode(@Param("getcode") String getcode);

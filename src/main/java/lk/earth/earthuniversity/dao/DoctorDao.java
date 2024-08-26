@@ -13,6 +13,9 @@ public interface DoctorDao extends JpaRepository<Doctor,Integer> {
     @Query(value = "select d from Doctor d where d.id = :id")
     Doctor findByMyId(@Param("id") Integer id);
 
+//    @Query(value = "SELECT e FROM Employee e, Doctor d WHERE e.designation.id = 2 AND e.id NOT IN ( SELECT e.id  FROM d)")
+//    Doctor findByMyId();
+
     Doctor findByEmployee(Employee employee);
 
 
@@ -21,5 +24,12 @@ public interface DoctorDao extends JpaRepository<Doctor,Integer> {
 
     @Query(value = "SELECT d.id FROM Doctor d where d.employee.id = :id")
     Doctor findDoctorByEmployeeId(@Param("id") int id);
+
+//    @Query("SELECT d.id FROM Doctor d, Doctorclinictype dc where d.id = ")
+    @Query("SELECT d FROM Doctor d\n" +
+            "JOIN Doctorclinictype dct ON d.id = dct.doctor.id\n" +
+            "JOIN Clinictype ct ON dct.clinictype.id = ct.id\n" +
+            "WHERE ct.id = :id")
+    List<Doctor> doctorByClinicType(@Param("id") int id);
 
 }

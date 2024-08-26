@@ -1,5 +1,7 @@
 package lk.earth.earthuniversity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -13,9 +15,12 @@ public class Patientriskfactor {
     @JoinColumn(name = "riskfactor_id", referencedColumnName = "id", nullable = false)
     private Riskfactor riskfactor;
 
-//    @ManyToOne
-//    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
-//    private Patient patient;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+    private Patient patient;
+
+//
 
     public Integer getId() {
         return id;
@@ -33,16 +38,24 @@ public class Patientriskfactor {
         this.riskfactor = riskfactor;
     }
 
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Patientriskfactor)) return false;
         Patientriskfactor that = (Patientriskfactor) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getRiskfactor(), that.getRiskfactor());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getRiskfactor(), that.getRiskfactor()) && Objects.equals(getPatient(), that.getPatient());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRiskfactor());
+        return Objects.hash(getId(), getRiskfactor(), getPatient());
     }
 }

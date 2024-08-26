@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Reporttype {
@@ -14,6 +15,10 @@ public class Reporttype {
     @Basic
     @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "value")
+    private Integer value;
     @OneToMany(mappedBy = "reporttype")
     @JsonIgnore
     private Collection<Investigation> investigations;
@@ -34,24 +39,12 @@ public class Reporttype {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Reporttype that = (Reporttype) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-
-        return true;
+    public Integer getValue() {
+        return value;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public Collection<Investigation> getInvestigations() {
@@ -60,5 +53,18 @@ public class Reporttype {
 
     public void setInvestigations(Collection<Investigation> investigations) {
         this.investigations = investigations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Reporttype)) return false;
+        Reporttype that = (Reporttype) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getValue(), that.getValue()) && Objects.equals(getInvestigations(), that.getInvestigations());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getValue(), getInvestigations());
     }
 }

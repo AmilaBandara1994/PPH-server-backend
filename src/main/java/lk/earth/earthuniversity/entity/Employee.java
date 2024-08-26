@@ -110,14 +110,14 @@ public class Employee {
     private Collection<Drug> drugs;
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Collection<Diagnosis> diagnosesById;
+    private Collection<Diagnosis> diagnoses;
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
     private Collection<Investigation> investigations;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Collection<Doctorpayment> doctorpaymentsById;
+    private Collection<Doctorpayment> doctorpayments;
 
     public Employee(){}
 
@@ -393,12 +393,12 @@ public class Employee {
         this.drugs = drugs;
     }
 
-    public Collection<Diagnosis> getDiagnosesById() {
-        return diagnosesById;
+    public Collection<Diagnosis> getDiagnoses() {
+        return diagnoses;
     }
 
-    public void setDiagnosesById(Collection<Diagnosis> diagnosesById) {
-        this.diagnosesById = diagnosesById;
+    public void setDiagnoses(Collection<Diagnosis> diagnosesById) {
+        this.diagnoses = diagnosesById;
     }
 
     public Collection<Investigation> getInvestigations() {
@@ -409,11 +409,11 @@ public class Employee {
         this.investigations = investigations;
     }
 
-    public Collection<Doctorpayment> getDoctorpaymentsById() {
-        return doctorpaymentsById;
+    public Collection<Doctorpayment> getDoctorpayments() {
+        return doctorpayments;
     }
 
-    public void setDoctorpaymentsById(Collection<Doctorpayment> doctorpaymentsById) {
-        this.doctorpaymentsById = doctorpaymentsById;
+    public void setDoctorpayments(Collection<Doctorpayment> doctorpaymentsById) {
+        this.doctorpayments = doctorpaymentsById;
     }
 }
